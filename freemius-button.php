@@ -59,7 +59,7 @@ function render_button( $block_content, $block, $instance ) {
 	$plugin_dir = plugin_dir_path( __FILE__ );
 	$plugin_url = plugin_dir_url( __FILE__ );
 
-	wp_enqueue_script( 'freemius-button-checkout', 'https://checkout.freemius.com/checkout.min.js', array(), '0.1.0', true );
+	wp_enqueue_script( 'freemius-button-checkout', 'https://checkout.freemius.com/checkout.min.js', array('jquery'), '0.1.0', true );
 
 	// load from assets.php
 	$dependecied = include $plugin_dir . 'build/view.asset.php';
