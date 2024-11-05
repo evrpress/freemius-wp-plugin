@@ -11240,7 +11240,7 @@ const Attributes = {
   id: "",
   name: "",
   title: "",
-  //subtitle: '',
+  subtitle: "",
   image: "",
   plan_id: "",
   licenses: 1,
@@ -11248,12 +11248,12 @@ const Attributes = {
   hide_licenses: false,
   pricing_id: "",
   billing_cycle: "annual",
-  //hide_billing_cycles: false,
+  hide_billing_cycles: false,
   currency: "usd",
   default_currency: "usd",
   coupon: "",
   hide_coupon: false,
-  //maximize_discounts: true,
+  maximize_discounts: true,
   trial: false,
   cancel: "",
   purchaseCompleted: "",
@@ -11268,7 +11268,7 @@ const Attributes = {
   readonly_user: false,
   affiliate_user_id: undefined,
   locale: "en_US",
-  //user_token: "",
+  user_token: "",
   layout: undefined,
   form_position: "left",
   fullscreen: false,
@@ -11279,7 +11279,7 @@ const Attributes = {
   refund_policy_position: "dynamic",
   annual_discount: true,
   show_monthly_switch: false,
-  multisite_discount: "auto",
+  multisite_discount: undefined,
   bundle_discount: "maximize",
   show_inline_currency_selector: true,
   cancel_url: "",
@@ -23655,6 +23655,11 @@ const BlockEdit = props => {
       plugin_id: plugin_id,
       public_key: public_key
     });
+    const errorTimeout = setTimeout(() => {
+      alert("Freemius Checkout is not available. It's most likely a settings is wrong.");
+      handler.clearOptions();
+      handler.close();
+    }, 5000);
     if (freemius.cancel) {
       freemius_copy.cancel = function () {
         new Function(freemius.cancel).apply(this);
@@ -23670,11 +23675,12 @@ const BlockEdit = props => {
         new Function("data", freemius.success).apply(this, [data]);
       };
     }
-    if (freemius.track) {
-      freemius_copy.track = function (event, data) {
+    freemius_copy.track = function (event, data) {
+      errorTimeout && clearTimeout(errorTimeout);
+      if (freemius.track) {
         new Function("event", "data", freemius.track).apply(this, [event, data]);
-      };
-    }
+      }
+    };
     handler.open(freemius_copy);
   };
   if (!freemius_enabled) {
@@ -23684,6 +23690,7 @@ const BlockEdit = props => {
   }
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5__.BlockControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToolbarGroup, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToolbarButton, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Preview Checkout", "freemius"),
+    icon: "visibility",
     onClick: previewCheckout
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.__experimentalToolsPanel, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Freemius Button", "freemius"),
@@ -23693,58 +23700,60 @@ const BlockEdit = props => {
     onClick: previewCheckout,
     variant: "secondary"
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Preview Checkout", "freemius"))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("plugin_id", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Plugin ID", "freemius"),
     id: "plugin_id",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Required product ID (whether it's a plugin, theme, add-on, bundle, or SaaS).", "freemius"),
+    isRequired: true,
     isShownByDefault: true
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("public_key", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Public Key", "freemius"),
     id: "public_key",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Require product public key.", "freemius"),
+    isRequired: true,
     isShownByDefault: true
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("id", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Pricing ID", "freemius"),
+    id: "pricing_id",
+    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Use the licenses param instead. An optional ID of the exact multi-site license prices that will load once the checkout opened.", "freemius")
+  }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Body ID", "freemius"),
     id: "id",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("An optional ID to set the id attribute of the checkout's body HTML element. This argument is particularly useful if you have multiple checkout instances that need to have a slightly different design or visibility of UI components. You can assign a unique ID for each instance and customize it differently using the CSS stylesheet that you can attach through the PLANS - CUSTOMIZATION in the Developer Dashboard.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("name", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Product Title", "freemius"),
     id: "name",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("An optional string to override the product's title.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("title", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Checkout Title", "freemius"),
     id: "title",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("An optional string to override the checkout's title when buying a new license.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("subtitle", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Subtitle", "freemius"),
     id: "subtitle",
     isDeprecated: true,
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("This has been deprecated and removed in the new phase2 Checkout (more on it below). An optional string to override the checkout's subtitle.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("image", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Image", "freemius"),
     id: "image",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("An optional icon that loads at the checkout and will override the product's icon uploaded to the Freemius Dashboard. Use a secure path to the image over HTTPS. While the checkout will remain PCI compliant, credit-card automatic prefill by the browser will not work.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("plan_id", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Plan ID", "freemius"),
     id: "plan_id",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("The ID of the plan that will load with the checkout. When selling multiple plans you can set the param when calling the open() method.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("licenses", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Licenses", "freemius"),
     id: "licenses",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("A multi-site licenses prices that will load immediately with the checkout. A developer-friendly param that can be used instead of the pricing_id. To specify unlimited licenses prices, use one of the following values: 0, null, or 'unlimited'.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("disable_licenses_selector", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Disable licenses selector", "freemius"),
     id: "disable_licenses_selector",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Set this param to true if you like to disable the licenses selector when the product is sold with multiple license activation options.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("hide_licenses", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Hide Licenses", "freemius"),
     id: "hide_licenses",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Set this param to true if you like to entirely hide the 3rd row in the header with the license selector.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("pricing_id", "freemius"),
-    id: "pricing_id",
-    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Use the licenses param instead. An optional ID of the exact multi-site license prices that will load once the checkout opened.", "freemius")
-  }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("billing_cycle", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Billing cycle", "freemius"),
     id: "billing_cycle",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("An optional billing cycle that will be auto selected when the checkout is opened. Can be one of the following values: 'monthly', 'annual', 'lifetime'.", "freemius"),
     options: [{
@@ -23757,12 +23766,12 @@ const BlockEdit = props => {
       lifetime: "lifetime"
     }]
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("hide_billing_cycles", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Hide billing cycles", "freemius"),
     id: "hide_billing_cycles",
     isDeprecated: true,
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("This has been deprecated and removed in phase2 Checkout, with the introduction of show_upsells. Set this param to true if you like to hide the billing cycles selector when the product is sold in multiple billing frequencies.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("currency", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Currency", "freemius"),
     id: "currency",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("One of the following 3-char currency codes (ISO 4217) or 'auto': 'usd', 'eur', 'gbp'. You could set the parameter to 'auto' to let the checkout automatically choose the currency based on the geolocation of the user. If you decide to choose the 'auto' option, you may also want to dynamically show the prices on your pricing page according to the user's geo. Therefore, we created checkout.freemius.com/geo.json to allow you to identify the browser's geo and currency that the checkout will use by default.", "freemius"),
     options: [{
@@ -23775,7 +23784,7 @@ const BlockEdit = props => {
       gbp: "gbp"
     }]
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("default_currency", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Default Currency", "freemius"),
     id: "default_currency",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("You could use this when the 'currency' param is set to 'auto'. In this case, if the auto-detected currency is not associated with any pricing, this will be the fallback currency.", "freemius"),
     options: [{
@@ -23786,84 +23795,80 @@ const BlockEdit = props => {
       gbp: "gbp"
     }]
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("coupon", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Coupon", "freemius"),
     id: "coupon",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("An optional coupon code to be automatically applied on the checkout immediately when opened.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("hide_coupon", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Hide Coupon", "freemius"),
     id: "hide_coupon",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Set this param to true if you pre-populate a coupon and like to hide the coupon code and coupon input field from the user.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("maximize_discounts", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Maximize discounts", "freemius"),
     id: "maximize_discounts",
     isDeprecated: true,
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("This has been deprecated in favor of bundle_discount introduced in phase2 Checkout. Set this param to false when selling a bundle and you want the discounts to be based on the closest licenses quota and billing cycle from the child products. Unlike the default discounts calculation which is maximized by basing the discounts on the child products single-site prices.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("trial", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Trial", "freemius"),
     id: "trial",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("When set to true, it will open the checkout in a trial mode and the trial type (free vs. paid) will be based on the plan's configuration. This will only work if you've activated the Free Trial functionality in the plan configuration. If you configured the plan to support a trial that doesn't require a payment method, you can also open the checkout in a trial mode that requires a payment method by setting the value to 'paid'.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("cancel", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Cancel Callback", "freemius"),
     id: "cancel",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("A callback handler that will execute once a user closes the checkout by clicking the close icon. This handler only executes when the checkout is running in a dialog mode.", "freemius"),
     type: "code"
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("purchaseCompleted", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Purchase Completed Callback", "freemius"),
     id: "purchaseCompleted",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("An after successful purchase/subscription completion callback handler.", "freemius"),
     type: "code"
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("success", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Success Callback", "freemius"),
     id: "success",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("An optional callback handler, similar to purchaseCompleted. The main difference is that this callback will only execute after the user clicks the “Got It”” button that appears in the after purchase screen as a declaration that they successfully received the after purchase email. This callback is obsolete when the checkout is running in a dashboard mode.”", "freemius"),
     type: "code"
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("track", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Track Callback", "freemius"),
     id: "track",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("An optional callback handler for advanced tracking, which will be called on multiple checkout events such as updates in the currency, billing cycle, licenses #, etc.", "freemius"),
     type: "code"
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("license_key", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("License Key", "freemius"),
     id: "license_key",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("An optional param to pre-populate a license key for license renewal, license extension and more.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("hide_license_key", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Hide License Key", "freemius"),
     id: "hide_license_key",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Set this param to true if you like to hide the option to manually enter a license key during checkout for existing license renewal.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("is_payment_method_update", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Payment method update", "freemius"),
     id: "is_payment_method_update",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("An optional param to load the checkout for a payment method update. When set to `true`, the license_key param must be set and associated with a non-canceled subscription.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("user_email", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("User Email", "freemius"),
     id: "user_email",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("An optional string to prefill the buyer's email address.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("user_firstname", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("User Firstname", "freemius"),
     id: "user_firstname",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("An optional string to prefill the buyer's first name.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("user_lastname", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("User Lastname", "freemius"),
     id: "user_lastname",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("An optional string to prefill the buyer's last name.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("readonly_user", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Readonly User arguments", "freemius"),
     id: "readonly_user",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Set this parameter to true to make the user details (name and email) readonly. This is useful for SaaS integration where you are loading the user email and their first and last name from your own DB.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("affiliate_user_id", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Affiliate User ID", "freemius"),
     id: "affiliate_user_id",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("An optional user ID to associate purchases generated through the checkout with their affiliate account.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("locale", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Language (xx_XX)", "freemius"),
     id: "locale",
-    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("If given the Checkout will load in the selected language and would also show an UI for the user to switch language. The value of the language or locale parameter could be one of the followings:", "freemius")
+    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("If given the Checkout will load in the selected language and would also show an UI for the user to switch language.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("user_token", "freemius"),
-    id: "user_token",
-    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("An optional token which if present, would pre-populate the checkout with user's personal and billing data (for example, the name, email, country, vat ID etc).", "freemius")
-  }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("layout", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Layout", "freemius"),
     id: "layout",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Specify the layout of the form on a larger screen. This cannot be horizontal in cases like payment method updates or free plans. If set  null the system will automatically choose the best default for the current checkout mode.", "freemius"),
     options: [{
@@ -23874,7 +23879,7 @@ const BlockEdit = props => {
       horizontal: "horizontal"
     }]
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("form_position", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Form position", "freemius"),
     id: "form_position",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Specifies the position of the form in horizontal layout.", "freemius"),
     options: [{
@@ -23883,65 +23888,73 @@ const BlockEdit = props => {
       right: "right"
     }]
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("fullscreen", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Fullscreen", "freemius"),
     id: "fullscreen",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("If set to true, the Checkout dialog will take the entire screen when opened.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("show_upsells", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Show upsells", "freemius"),
     id: "show_upsells",
     he: true
   }, props, {
     lp: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Whether or not showing the upsell toggles.", "freemius")
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("show_reviews", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Show reviews", "freemius"),
     id: "show_reviews",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Whether or not showing featured reviews in the checkout. By default it will be shown if the checkout page is loaded directly, without any JS snippet (iFrame) integration call.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("review_id", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Review ID", "freemius"),
     id: "review_id",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("When showing the review UI in the checkout, you can specify which review you want to show with its ID. By default the latest featured review will be shown.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("show_refund_badge", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Show refund badge", "freemius"),
     id: "show_refund_badge",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Whether or not showing Refund Policy UI in the checkout. By default it will be shown if the checkout page is loaded directly, without any JS snippet (iFrame) integration call.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("refund_policy_position", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Refund policy position", "freemius"),
     id: "refund_policy_position",
-    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Use the parameter to position the refund policy badge when showing the form in horizontal layout. By default with the 'dynamic' value it will be positioned either below the form or the breakdown column. But with static value you have full control.", "freemius")
+    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Use the parameter to position the refund policy badge when showing the form in horizontal layout. By default with the 'dynamic' value it will be positioned either below the form or the breakdown column. But with static value you have full control.", "freemius"),
+    options: [{
+      dynamic: "dynamic"
+    }, {
+      below_form: "below_form"
+    }, {
+      below_breakdown: "below_breakdown"
+    }]
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("annual_discount", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Show Annual discount", "freemius"),
     id: "annual_discount",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Determines whether the annual discount will be shown in the checkout.  ", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("show_monthly_switch", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Show monthly switch", "freemius"),
     id: "show_monthly_switch",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Switching to the monthly billing cycle is disabled when the Checkout is loaded with annual billing cycle. Use this parameter to show it.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("multisite_discount", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Multisite discount", "freemius"),
     id: "multisite_discount",
-    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Determines whether the multi-site discount will be shown. When the value is auto, the discount will only be shown if the single license pricing difference does not exceed 10 times more than the current pricing.", "freemius")
+    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Determines whether the multi-site discount will be shown. When the value is auto, the discount will only be shown if the single license pricing difference does not exceed 10 times more than the current pricing.", "freemius"),
+    type: "boolean"
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("bundle_discount", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Bundle discount", "freemius"),
     id: "bundle_discount",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Determines whether the bundle discount will be shown. The bundle discount itself depends on the compound price of its children. By default with maximize, we try to take the compound price from the lowest billing cycle and license. But with the value of true, we take it from the closest billing cycle and licenses.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("show_inline_currency_selector", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Show inline currency selector", "freemius"),
     id: "show_inline_currency_selector",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Set it to false to hide the inline currency selector from the “Today's Total” line.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("cancel_url", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Cancel URL", "freemius"),
     id: "cancel_url",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("When the checkout is loaded in page you can specify a cancel URL to be used for the back button. By default if you link Freemius Checkout from your website, it will be picked up from the Referer header (if present). Using this option you can override the URL as needed.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("cancel_icon", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Cancel icon", "freemius"),
     id: "cancel_icon",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("By default the website icon (also known as favicon) will be rendered alongside the cancel button. If you want to use any other icon image, please specify the link to the icon using this parameter.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("always_show_renewals_amount", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Always show renewals amount", "freemius"),
     id: "always_show_renewals_amount",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("When set to true, a small line mentioning the total renewal price per billing cycle will shown below the total. By default, it only shows up when there is a renewal discount involved.", "freemius")
   }, props)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(FsToolItem, (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("is_bundle_collapsed", "freemius"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Bundle is collapsed", "freemius"),
     id: "is_bundle_collapsed",
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Determines whether the products in a bundle appear as hidden by default. Is applicable only to bundles.", "freemius")
   }, props))));
@@ -23955,8 +23968,10 @@ const FsToolItem = props => {
     options,
     link,
     isDeprecated,
+    isRequired,
     attributes,
-    setAttributes
+    setAttributes,
+    onChange
   } = props;
   const setOption = (key, values) => {
     let newValue = {
@@ -23981,8 +23996,17 @@ const FsToolItem = props => {
   }
   let the_link = link || "https://freemius.com/help/documentation/selling-with-freemius/freemius-checkout-buy-button/#" + id;
   let the_label = label;
+  const onChangeHandler = val => {
+    if (onChange) {
+      val = onChange(val);
+    }
+    setOption(id, val);
+  };
   if (isDeprecated) {
     the_label += " (deprecated)";
+  }
+  if (isRequired) {
+    the_label += " (required)";
   }
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.__experimentalToolsPanelItem, {
     hasValue: () => !!value,
@@ -23996,24 +24020,24 @@ const FsToolItem = props => {
     switch (type_of) {
       case "boolean":
         return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.CheckboxControl, {
-          checked: value,
+          checked: value || false,
           label: the_label,
           help: help,
-          onChange: val => setOption(id, val)
+          onChange: onChangeHandler
         });
       case "number":
         return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.__experimentalNumberControl, {
-          value: value,
+          value: value || "",
           label: the_label,
           help: help,
-          onChange: val => setOption(id, val)
+          onChange: onChangeHandler
         });
       case "select":
         return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.SelectControl, {
           value: value,
           label: the_label,
           help: help,
-          onChange: val => setOption(id, val),
+          onChange: onChangeHandler,
           options: options.map((o, i) => {
             const [key, value] = Object.entries(o)[0];
             return {
@@ -24024,17 +24048,17 @@ const FsToolItem = props => {
         });
       case "code":
         return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.TextareaControl, {
-          value: value,
+          value: value || "",
           label: the_label,
           help: help,
-          onChange: val => setOption(id, val)
+          onChange: onChangeHandler
         });
       default:
         return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.TextControl, {
-          value: value,
+          value: value || "",
           label: the_label,
           help: help,
-          onChange: val => setOption(id, val)
+          onChange: onChangeHandler
         });
     }
   })()));
