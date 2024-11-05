@@ -27,7 +27,7 @@ domReady(() => {
 		// do not modify the original object
 		const freemius_copy = { ...freemius };
 
-		const handler = FS.Checkout.configure({
+		const handler = new FS.Checkout({
 			plugin_id: plugin_id,
 			public_key: public_key,
 		});
