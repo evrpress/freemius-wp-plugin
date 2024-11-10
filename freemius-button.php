@@ -36,7 +36,7 @@ function block_script_styles() {
 
 
 
-add_filter( 'render_block_core/button', __NAMESPACE__ . '\render_button', 10, 3 );
+\add_filter( 'render_block_core/button', __NAMESPACE__ . '\render_button', 10, 3 );
 function render_button( $block_content, $block, $instance ) {
 
 	if ( ! isset( $block['attrs'] ) ) {
