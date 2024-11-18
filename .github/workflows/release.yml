@@ -52,10 +52,9 @@ jobs:
       - name: 🗜️ Zip the contents of the dist directory with project name and version
         id: zip_project
         run: |
-          ZIP_NAME="${{ steps.read_version.outputs.project_name }}-${{ steps.read_version.outputs.version }}.zip"
+          ZIP_NAME="${{ steps.read_version.outputs.project_name }}.zip"
           npm run plugin-zip
           echo "zip_name=$ZIP_NAME" >> $GITHUB_OUTPUT
-          ls -a
 
       - name: 📦 Create Release
         uses: "marvinpinto/action-automatic-releases@v1.2.1"
@@ -63,5 +62,4 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            ${{ steps.zip_project.outputs.zip_name }}
             ${{ steps.read_version.outputs.project_name }}.zip
