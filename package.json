@@ -13,6 +13,11 @@
 		"plugin-zip": "wp-scripts plugin-zip",
 		"start": "wp-scripts start"
 	},
+	"files": [
+		"build",
+		"vendor",
+		"freemius-button.php"
+	],
 	"dependencies": {
 		"@10up/block-components": "^1.15.10",
 		"@wordpress/api-fetch": "^6.0.0",

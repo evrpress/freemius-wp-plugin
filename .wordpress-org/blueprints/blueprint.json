@@ -1,0 +1,36 @@
+{
+	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"landingPage": "/wp-admin/post.php?post=4&action=edit",
+	"preferredVersions": {
+	  "php": "8.0",
+	  "wp": "latest"
+	},
+	"features": {
+	  "networking": true
+	},
+	"phpExtensionBundles": ["kitchen-sink"],
+	"login": true,
+	"siteOptions": {
+	  "blogname": "Freemius Button"
+	},
+	"steps": [
+	  {
+		"step": "installPlugin",
+		"pluginZipFile": {
+		  "resource": "url",
+		  "url": "https://github-proxy.com/proxy/?repo=evrpress/freemius-button&branch=main"
+		},
+		"options": {
+		  "activate": true
+		}
+	  },
+	  {
+		"step": "importFile",
+		"file": {
+		  "resource": "url",
+		  "url": "https://files.xaver.dev/blueprints/content/freemius-button.xml"
+		}
+	  }
+	]
+  }
+  

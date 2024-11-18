@@ -18,6 +18,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
+require_once __DIR__ . '/vendor/autoload.php';
+
+// Initialize the updater
+\EverPress\WPUpdater::add('test-plugin/test-plugin.php',
+	array(
+		'username'        => 'evrpress',
+		'repository'      => 'freemius-button',
+	)
+);
+
+
 \add_action( 'enqueue_block_assets', __NAMESPACE__ . '\block_script_styles', 1 );
 function block_script_styles() {
 
