@@ -7,7 +7,7 @@ namespace EverPress\FreemiusButton;
  * Description:       Freemius Button
  * Requires at least: 6.6
  * Requires PHP:      7.4
- * Version:           0.1.1
+ * Version:           0.1.2
  * Author:            Xaver
  *
  * @package CreateBlock
