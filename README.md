@@ -1,5 +1,11 @@
 # Freemius Button
 
+![Freemius Button](https://github.com/evrpress/freemius-button/blob/main/.wordpress-org/banner.jpg)
+
+[![Playground Demo Link](https://img.shields.io/wordpress/plugin/v/freemius-button?logo=wordpress&logoColor=%23fff&label=Playground%20Demo&labelColor=%233858e9&color=%233858e9)](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/evrpress/freemius-button/main/.wordpress-org/blueprint.json)
+
+
+
 Contributors:      everpress  
 Tags:              freemius  
 Tested up to:      6.7  
