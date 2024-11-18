@@ -2,7 +2,7 @@
 
 ![Freemius Button](https://github.com/evrpress/freemius-button/blob/main/.wordpress-org/banner.jpg)
 
-[Playground Demo Link](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/evrpress/freemius-button/refs/heads/main/.wordpress-org/blueprints/blueprint.json)
+[Playground](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/evrpress/freemius-button/refs/heads/main/.wordpress-org/blueprints/blueprint.json)
 
 
 
