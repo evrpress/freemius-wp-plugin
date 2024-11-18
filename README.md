@@ -2,7 +2,7 @@
 
 ![Freemius Button](https://github.com/evrpress/freemius-button/blob/main/.wordpress-org/banner.jpg)
 
-[![Playground Demo Link](https://img.shields.io/wordpress/plugin/v/freemius-button?logo=wordpress&logoColor=%23fff&label=Playground%20Demo&labelColor=%233858e9&color=%233858e9)](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/evrpress/freemius-button/main/.wordpress-org/blueprint.json)
+[Playground Demo Link](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/evrpress/freemius-button/refs/heads/main/.wordpress-org/blueprints/blueprint.json)
 
 
 
