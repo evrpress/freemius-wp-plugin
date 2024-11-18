@@ -1,1 +1,0 @@
-{"version":3,"file":"editor.css","mappings":";;;AAAA;EACC;AACD,C","sources":["webpack://freemius-button/./src/editor.scss"],"sourcesContent":[".freemius-link {\n\tfloat: right;\n}\n"],"names":[],"sourceRoot":""}
