@@ -20,7 +20,7 @@
 		"step": "installPlugin",
 		"pluginZipFile": {
 		  "resource": "url",
-		  "url": "https://github-proxy.com/proxy/?repo=evrpress/freemius-button&release=latest&asset=freemius-button.zip"
+		  "url": "https://github-proxy.com/proxy/?repo=evrpress/freemius-button&release=latest&asset=freemius-button-123.zip"
 		},
 		"options": {
 		  "activate": true
