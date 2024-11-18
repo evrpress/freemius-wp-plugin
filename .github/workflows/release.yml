@@ -58,7 +58,7 @@ jobs:
           cp ./.wordpress-org/blueprints/blueprint.json blueprint.json
           ls -la
           cat blueprint.json
-          sed -i '' "s/freemius-button.zip/freemius-button-${{ steps.read_version.outputs.version }}.zip/g" blueprint.json
+          sed -i "s/freemius-button.zip/freemius-button-${{ steps.read_version.outputs.version }}.zip/g" blueprint.json
           cat blueprint.json
           echo "zip_name=$ZIP_NAME" >> $GITHUB_OUTPUT
 
