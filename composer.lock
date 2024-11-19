@@ -58,16 +58,16 @@
         },
         {
             "name": "evrpress/wp-updater",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/evrpress/wp-updater.git",
-                "reference": "78a0193e52f39f159c0e6825c80456d2a92e2ed3"
+                "reference": "d5b25c485e0cc89c815f076418d3c5c328c3c3d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/evrpress/wp-updater/zipball/78a0193e52f39f159c0e6825c80456d2a92e2ed3",
-                "reference": "78a0193e52f39f159c0e6825c80456d2a92e2ed3",
+                "url": "https://api.github.com/repos/evrpress/wp-updater/zipball/d5b25c485e0cc89c815f076418d3c5c328c3c3d7",
+                "reference": "d5b25c485e0cc89c815f076418d3c5c328c3c3d7",
                 "shasum": ""
             },
             "require": {
@@ -81,10 +81,10 @@
             },
             "description": "A small helper for Wordpress plugins",
             "support": {
-                "source": "https://github.com/evrpress/wp-updater/tree/0.1.0",
+                "source": "https://github.com/evrpress/wp-updater/tree/0.1.1",
                 "issues": "https://github.com/evrpress/wp-updater/issues"
             },
-            "time": "2024-11-19T20:22:08+00:00"
+            "time": "2024-11-19T20:43:46+00:00"
         }
     ],
     "packages-dev": [],
