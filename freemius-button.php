@@ -7,7 +7,7 @@ namespace EverPress\FreemiusButton;
  * Description:       Freemius Button
  * Requires at least: 6.6
  * Requires PHP:      7.4
- * Version:           0.1.3
+ * Version:           0.1.4
  * Author:            Xaver
  *
  * @package CreateBlock
@@ -20,11 +20,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+
 // Initialize the updater
-\EverPress\WPUpdater::add('freemius-button/freemius-button.php',
+class_exists( 'EverPress\WPUpdater' ) && \EverPress\WPUpdater::add(
+	'freemius-button/freemius-button.php',
 	array(
-		'username'        => 'evrpress',
-		'repository'      => 'freemius-button',
+		'repository' => 'evrpress/freemius-button',
+		'extra'      => 'extra',
 	)
 );
 
