@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "88621e17e78259530417b4290a725ca7",
+    "content-hash": "f60a281faa7178765d1fe1e38839a553",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -58,16 +58,16 @@
         },
         {
             "name": "evrpress/wp-updater",
-            "version": "0.1.1",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/evrpress/wp-updater.git",
-                "reference": "d5b25c485e0cc89c815f076418d3c5c328c3c3d7"
+                "reference": "555a64cfdbbc5686b39f4f261e11201626ad6088"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/evrpress/wp-updater/zipball/d5b25c485e0cc89c815f076418d3c5c328c3c3d7",
-                "reference": "d5b25c485e0cc89c815f076418d3c5c328c3c3d7",
+                "url": "https://api.github.com/repos/evrpress/wp-updater/zipball/555a64cfdbbc5686b39f4f261e11201626ad6088",
+                "reference": "555a64cfdbbc5686b39f4f261e11201626ad6088",
                 "shasum": ""
             },
             "require": {
@@ -81,16 +81,18 @@
             },
             "description": "A small helper for Wordpress plugins",
             "support": {
-                "source": "https://github.com/evrpress/wp-updater/tree/0.1.1",
+                "source": "https://github.com/evrpress/wp-updater/tree/develop",
                 "issues": "https://github.com/evrpress/wp-updater/issues"
             },
-            "time": "2024-11-19T20:43:46+00:00"
+            "time": "2024-11-20T14:38:45+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+        "evrpress/wp-updater": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {},
