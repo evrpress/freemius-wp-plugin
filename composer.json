@@ -8,6 +8,6 @@
 		}
 	],
 	"require": {
-		"evrpress/wp-updater": "^0.1.0"
+		"evrpress/wp-updater": "dev-develop"
 	}
 }
