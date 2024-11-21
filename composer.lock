@@ -62,12 +62,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/evrpress/wp-updater.git",
-                "reference": "555a64cfdbbc5686b39f4f261e11201626ad6088"
+                "reference": "0b24819fb27b466d4548284b946c439b91d42e35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/evrpress/wp-updater/zipball/555a64cfdbbc5686b39f4f261e11201626ad6088",
-                "reference": "555a64cfdbbc5686b39f4f261e11201626ad6088",
+                "url": "https://api.github.com/repos/evrpress/wp-updater/zipball/0b24819fb27b466d4548284b946c439b91d42e35",
+                "reference": "0b24819fb27b466d4548284b946c439b91d42e35",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "source": "https://github.com/evrpress/wp-updater/tree/develop",
                 "issues": "https://github.com/evrpress/wp-updater/issues"
             },
-            "time": "2024-11-20T14:38:45+00:00"
+            "time": "2024-11-21T11:05:26+00:00"
         }
     ],
     "packages-dev": [],
