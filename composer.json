@@ -1,5 +1,5 @@
 {
-	"name": "xaver/freemius-button",
+	"name": "evrpress/freemius-button",
 	"minimum-stability": "dev",
 	"repositories": [
 		{
@@ -8,6 +8,6 @@
 		}
 	],
 	"require": {
-		"evrpress/wp-updater": "dev-develop"
+		"evrpress/wp-updater": "*"
 	}
 }
