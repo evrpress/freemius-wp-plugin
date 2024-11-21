@@ -62,21 +62,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/evrpress/wp-updater.git",
-<<<<<<< HEAD
-                "reference": "5483b3ba18d255ff1e10fd89846f34088e4d2159"
+                "reference": "728047494c99973f8ab4c6ca497f2c7ebe11a6b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/evrpress/wp-updater/zipball/5483b3ba18d255ff1e10fd89846f34088e4d2159",
-                "reference": "5483b3ba18d255ff1e10fd89846f34088e4d2159",
-=======
-                "reference": "0b24819fb27b466d4548284b946c439b91d42e35"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/evrpress/wp-updater/zipball/0b24819fb27b466d4548284b946c439b91d42e35",
-                "reference": "0b24819fb27b466d4548284b946c439b91d42e35",
->>>>>>> release/0.1.1
+                "url": "https://api.github.com/repos/evrpress/wp-updater/zipball/728047494c99973f8ab4c6ca497f2c7ebe11a6b4",
+                "reference": "728047494c99973f8ab4c6ca497f2c7ebe11a6b4",
                 "shasum": ""
             },
             "require": {
@@ -91,14 +82,10 @@
             },
             "description": "A small helper for Wordpress plugins",
             "support": {
-                "source": "https://github.com/evrpress/wp-updater/tree/0.1.0",
+                "source": "https://github.com/evrpress/wp-updater/tree/0.1.1",
                 "issues": "https://github.com/evrpress/wp-updater/issues"
             },
-<<<<<<< HEAD
-            "time": "2024-11-20T14:24:58+00:00"
-=======
             "time": "2024-11-21T11:05:26+00:00"
->>>>>>> release/0.1.1
         }
     ],
     "packages-dev": [],
