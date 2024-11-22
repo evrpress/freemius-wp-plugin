@@ -17,6 +17,7 @@
 		"build",
 		"src",
 		"vendor",
+		"includes",
 		"freemius-button.php"
 	],
 	"dependencies": {

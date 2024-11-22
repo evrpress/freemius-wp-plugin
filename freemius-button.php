@@ -149,15 +149,13 @@ function sanitize_schema( $settings ) {
 		}
 	}
 
-	error_log( print_r( func_get_args(), true ) );
-
 	return $settings;
 }
 
 function get_schema() {
 
 	$plugin_dir = \plugin_dir_path( __FILE__ );
-	$schema     = include $plugin_dir . 'schema.php';
+	$schema     = include $plugin_dir . 'includes/schema.php';
 
 	return $schema;
 }
