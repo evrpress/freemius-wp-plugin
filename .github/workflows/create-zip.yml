@@ -3,6 +3,9 @@ name: "Create Zip"
 
 on:
   push:
+    paths-ignore:
+      - ".github/**"
+      - ".wordpress-org/**"
     branches:
       - develop
 
