@@ -58,7 +58,12 @@ jobs:
           ZIP_NAME="${{ steps.read_version.outputs.project_name }}.zip"
           npm run plugin-zip
           echo "zip_name=$ZIP_NAME" >> $GITHUB_OUTPUT
+          git status
           ls -l
+          git config --global user.name 'Your Name'
+          git config --global user.email 'your-username@users.noreply.github.com'
+          git commit -am "Automated report"
+          git push
 
       - name: Download a single artifact
         uses: actions/download-artifact@v4
