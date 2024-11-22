@@ -47,11 +47,6 @@ jobs:
         run: |
           npm run build --no-dev
 
-      - name: 🧹 Cleanup
-        run: |
-          echo "Cleanup"
-          rm -f README.md
-
       - name: 🗜️ Zip the contents of the dist directory with project name and version
         id: zip_project
         run: |
@@ -62,8 +57,10 @@ jobs:
           ls -l
           git config --global user.name 'Your Name'
           git config --global user.email 'your-username@users.noreply.github.com'
-          git commit -am "Automated report"
+          git add $ZIP_NAME
+          git commit -m "added file $ZIP_NAME"
           git push
+          git status
 
       - name: Download a single artifact
         uses: actions/download-artifact@v4
