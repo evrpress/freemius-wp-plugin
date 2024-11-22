@@ -10,7 +10,7 @@ on:
 
 permissions: write-all
 jobs:
-  tagged-release:
+  create-zip:
     name: "Create Zip"
     runs-on: "ubuntu-latest"
     outputs:
