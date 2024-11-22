@@ -319,6 +319,7 @@ const BlockEdit = (props) => {
 								id={key}
 								scope={scope}
 								help={item.help}
+								defaultValue={item.default}
 								isDeprecated={item.isDeprecated}
 								isRequired={item.isRequired}
 								value={value}
@@ -371,6 +372,7 @@ const FsToolItem = (props) => {
 		placeholder,
 		value,
 		onChange,
+		defaultValue,
 	} = props;
 
 	const overwrite = "";
@@ -380,6 +382,10 @@ const FsToolItem = (props) => {
 		"https://freemius.com/help/documentation/selling-with-freemius/freemius-checkout-buy-button/#" +
 			id;
 	const inherited = !!placeholder && value == undefined;
+	let the_type = type;
+	if (options) {
+		the_type = "array";
+	}
 
 	if (inherited) {
 		the_label += " (inherited)";
@@ -392,7 +398,7 @@ const FsToolItem = (props) => {
 
 	const onChangeHandler = (val) => {
 		if (onChange) {
-			val = onChange(val);
+			onChange(val);
 		}
 	};
 
@@ -409,16 +415,18 @@ const FsToolItem = (props) => {
 			<BaseControl help={overwrite} __nextHasNoMarginBottom>
 				<ExternalLink className="freemius-link" href={the_link} />
 				{(() => {
-					switch (type) {
+					switch (the_type) {
 						case "boolean":
 							return (
 								<CheckboxControl
 									__nextHasNoMarginBottom
-									checked={!!value || false}
+									checked={value != undefined ? value : defaultValue}
 									label={the_label}
 									help={help}
 									indeterminate={!!placeholder && value == undefined}
-									onChange={onChangeHandler}
+									onChange={(val) => {
+										onChangeHandler(val);
+									}}
 								/>
 							);
 
