@@ -49,13 +49,27 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"freemius_enabled":true,"freemius":{"plugin_id":"12184","public_key":"pk_1efa30140fc34f21e5b89959bb877"}} -->
-<div class="wp-block-button has-freemius-checkout has-freemius-checkout-12184"><a class="wp-block-button__link wp-element-button">Buy Mailster Now</a></div>
+<div class="wp-block-buttons"><!-- wp:button {"freemius_enabled":true,"freemius":{}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Buy Mailster Now</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"freemius_enabled":true,"freemius":{"plan_id":"22866"}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Starter</a></div>
+<!-- /wp:button -->
+
+<!-- wp:button {"freemius_enabled":true,"freemius":{"plan_id":"22867"}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Professional</a></div>
+<!-- /wp:button -->
+
+<!-- wp:button {"freemius_enabled":true,"freemius":{"plan_id":"22868"}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Agency</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
 <!-- wp:paragraph -->
-<p>The button provides basically (almost) all options from the <a href="https://freemius.com/help/documentation/selling-with-freemius/freemius-checkout-buy-button/">offical docs</a>. Just click on the button and enable the "<em>Open a Freemius Checkout with this button</em>" checkbox.</p>
+<p>The button provides basically (almost) all options from the <a href="https://freemius.com/help/documentation/selling-with-freemius/freemius-checkout-buy-button/">offical docs</a>. Just click on the button and enable the "<em>Freemius Checkout </em>" checkbox.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -81,6 +95,42 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
+<h2 class="wp-block-heading">Scopes</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Freemius Button can work with three scopes: Global, Page and Button. This way you can define settings for your whole site/page which can get overwritten specifically.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The "Button" scope overwrites settings from "Page" which overwrites settings from "Global"</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Global</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The global scope stores the value in the <code>wp_options</code> table. Data can be used across your whole site.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Page</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This scope is for the current page. It is stored in the <code>post_meta</code> table and is valid for the current page only. It inherits the Global settings.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Button</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>These is for individual buttons. The data is stored in the block attributes. It inherits data from the Page settings as well the Global settings.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
 <h2 class="wp-block-heading">Filters</h2>
 <!-- /wp:heading -->
 
@@ -97,24 +147,24 @@
 <!-- /wp:heading -->
 
 <!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"freemius_enabled":true,"freemius":{"plugin_id":"12184","public_key":"pk_1efa30140fc34f21e5b89959bb877","trial":true}} -->
-<div class="wp-block-button has-freemius-checkout has-freemius-checkout-12184"><a class="wp-block-button__link wp-element-button">Start a Trial</a></div>
+<div class="wp-block-buttons"><!-- wp:button {"className":"has-freemius-checkout","freemius_enabled":true,"freemius":{"trial":true}} -->
+<div class="wp-block-button has-freemius-checkout has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Start a Trial</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"freemius_enabled":true,"freemius":{"plugin_id":"12184","public_key":"pk_1efa30140fc34f21e5b89959bb877","trial":true,"plan_id":"22868"}} -->
-<div class="wp-block-button has-freemius-checkout has-freemius-checkout-12184"><a class="wp-block-button__link wp-element-button">Start a Trial of a different Plan</a></div>
+<!-- wp:button {"freemius_enabled":true,"freemius":{"trial":true,"plan_id":"22868"}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Start a Trial of a different Plan</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"freemius_enabled":true,"freemius":{"plugin_id":"12184","public_key":"pk_1efa30140fc34f21e5b89959bb877","plan_id":"22868","coupon":"WPTESTER"}} -->
-<div class="wp-block-button has-freemius-checkout has-freemius-checkout-12184"><a class="wp-block-button__link wp-element-button">Apply Coupon</a></div>
+<!-- wp:button {"freemius_enabled":true,"freemius":{"plan_id":"22868","coupon":"WPTESTER"}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Apply Coupon</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"freemius_enabled":true,"freemius":{"plugin_id":"12184","public_key":"pk_1efa30140fc34f21e5b89959bb877","plan_id":"22868","coupon":"WPTESTER","hide_coupon":true}} -->
-<div class="wp-block-button has-freemius-checkout has-freemius-checkout-12184"><a class="wp-block-button__link wp-element-button">Apply Coupon (hidden)</a></div>
+<!-- wp:button {"freemius_enabled":true,"freemius":{"plan_id":"22868","coupon":"WPTESTER","hide_coupon":true}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Apply Coupon (hidden)</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"freemius_enabled":true,"freemius":{"plugin_id":"12184","public_key":"pk_1efa30140fc34f21e5b89959bb877","plan_id":"22868","track":"console.log('Event triggered: ' + event)"}} -->
-<div class="wp-block-button has-freemius-checkout has-freemius-checkout-12184"><a class="wp-block-button__link wp-element-button">Run some events (check console)</a></div>
+<!-- wp:button {"freemius_enabled":true,"freemius":{"plan_id":"22868","track":"console.log('Event triggered: ' + event)"}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Run some events (check console)</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 ]]></content:encoded>
@@ -136,7 +186,10 @@
 		<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
 		<wp:meta_value><![CDATA[default]]></wp:meta_value>
 		</wp:postmeta>
-							</item>
+		<wp:postmeta>
+		<wp:meta_key><![CDATA[freemius_button]]></wp:meta_key>
+		<wp:meta_value><![CDATA[a:2:{s:10:"public_key";s:32:"pk_1efa30140fc34f21e5b89959bb877";s:9:"plugin_id";i:12184;}]]></wp:meta_value>
+		</wp:postmeta>							</item>
 				</channel>
 </rss>
 	

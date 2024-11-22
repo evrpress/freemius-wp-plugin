@@ -3,16 +3,14 @@
 ![Freemius Button](https://github.com/evrpress/freemius-button/blob/main/.wordpress-org/banner.jpg)
 
 [Playground](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/evrpress/freemius-button/refs/heads/main/.wordpress-org/blueprints/blueprint.json)
-
-
+[Playground - develop](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/evrpress/freemius-button/refs/heads/develop/.wordpress-org/blueprints/blueprint-develop.json)
 
 Contributors:      everpress  
 Tags:              freemius  
 Tested up to:      6.7  
-Stable tag:        0.1.1  
+Stable tag:        0.1.2  
 License:           GPL-2.0-or-later  
-License URI:       https://www.gnu.org/licenses/gpl-2.0.html
-
+License URI:       <https://www.gnu.org/licenses/gpl-2.0.html>
 
 ## Description
 
@@ -29,7 +27,6 @@ e.g.
 
 1. Upload the plugin files to the `/wp-content/plugins/freemius-button` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
-
 
 ## Frequently Asked Questions
 
@@ -51,6 +48,6 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 
 ## Changelog
 
-### 0.1.0 
+### 0.1.0
 
 - Release
