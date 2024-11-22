@@ -49,8 +49,8 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"freemius_enabled":true,"freemius":{"plugin_id":"12184","public_key":"pk_1efa30140fc34f21e5b89959bb877"}} -->
-<div class="wp-block-button has-freemius-checkout has-freemius-checkout-12184"><a class="wp-block-button__link wp-element-button">Buy Mailster Now</a></div>
+<div class="wp-block-buttons"><!-- wp:button {"className":"has-freemius-checkout","freemius_enabled":true,"freemius":{}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Buy Mailster Now</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
@@ -97,24 +97,24 @@
 <!-- /wp:heading -->
 
 <!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"freemius_enabled":true,"freemius":{"plugin_id":"12184","public_key":"pk_1efa30140fc34f21e5b89959bb877","trial":true}} -->
-<div class="wp-block-button has-freemius-checkout has-freemius-checkout-12184"><a class="wp-block-button__link wp-element-button">Start a Trial</a></div>
+<div class="wp-block-buttons"><!-- wp:button {"className":"has-freemius-checkout","freemius_enabled":true,"freemius":{"trial":true}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Start a Trial</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"freemius_enabled":true,"freemius":{"plugin_id":"12184","public_key":"pk_1efa30140fc34f21e5b89959bb877","trial":true,"plan_id":"22868"}} -->
-<div class="wp-block-button has-freemius-checkout has-freemius-checkout-12184"><a class="wp-block-button__link wp-element-button">Start a Trial of a different Plan</a></div>
+<!-- wp:button {"className":"has-freemius-checkout","freemius_enabled":true,"freemius":{"trial":true,"plan_id":"22868"}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Start a Trial of a different Plan</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"freemius_enabled":true,"freemius":{"plugin_id":"12184","public_key":"pk_1efa30140fc34f21e5b89959bb877","plan_id":"22868","coupon":"WPTESTER"}} -->
-<div class="wp-block-button has-freemius-checkout has-freemius-checkout-12184"><a class="wp-block-button__link wp-element-button">Apply Coupon</a></div>
+<!-- wp:button {"className":"has-freemius-checkout","freemius_enabled":true,"freemius":{"plan_id":"22868","coupon":"WPTESTER"}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Apply Coupon</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"freemius_enabled":true,"freemius":{"plugin_id":"12184","public_key":"pk_1efa30140fc34f21e5b89959bb877","plan_id":"22868","coupon":"WPTESTER","hide_coupon":true}} -->
-<div class="wp-block-button has-freemius-checkout has-freemius-checkout-12184"><a class="wp-block-button__link wp-element-button">Apply Coupon (hidden)</a></div>
+<!-- wp:button {"className":"has-freemius-checkout","freemius_enabled":true,"freemius":{"plan_id":"22868","coupon":"WPTESTER","hide_coupon":true}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Apply Coupon (hidden)</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"freemius_enabled":true,"freemius":{"plugin_id":"12184","public_key":"pk_1efa30140fc34f21e5b89959bb877","plan_id":"22868","track":"console.log('Event triggered: ' + event)"}} -->
-<div class="wp-block-button has-freemius-checkout has-freemius-checkout-12184"><a class="wp-block-button__link wp-element-button">Run some events (check console)</a></div>
+<!-- wp:button {"className":"has-freemius-checkout","freemius_enabled":true,"freemius":{"plan_id":"22868","track":"console.log('Event triggered: ' + event)"}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Run some events (check console)</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 ]]></content:encoded>
