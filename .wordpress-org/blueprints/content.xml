@@ -49,8 +49,22 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"className":"has-freemius-checkout","freemius_enabled":true,"freemius":{}} -->
+<div class="wp-block-buttons"><!-- wp:button {"freemius_enabled":true,"freemius":{}} -->
 <div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Buy Mailster Now</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"freemius_enabled":true,"freemius":{"plan_id":"22866","track":"asdas"}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Starter</a></div>
+<!-- /wp:button -->
+
+<!-- wp:button {"freemius_enabled":true,"freemius":{"plan_id":"22867"}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Professional</a></div>
+<!-- /wp:button -->
+
+<!-- wp:button {"freemius_enabled":true,"freemius":{"plan_id":"22868"}} -->
+<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Agency</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
@@ -98,22 +112,22 @@
 
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button {"className":"has-freemius-checkout","freemius_enabled":true,"freemius":{"trial":true}} -->
-<div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Start a Trial</a></div>
+<div class="wp-block-button has-freemius-checkout has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Start a Trial</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"className":"has-freemius-checkout","freemius_enabled":true,"freemius":{"trial":true,"plan_id":"22868"}} -->
+<!-- wp:button {"freemius_enabled":true,"freemius":{"trial":true,"plan_id":"22868"}} -->
 <div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Start a Trial of a different Plan</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"className":"has-freemius-checkout","freemius_enabled":true,"freemius":{"plan_id":"22868","coupon":"WPTESTER"}} -->
+<!-- wp:button {"freemius_enabled":true,"freemius":{"plan_id":"22868","coupon":"WPTESTER"}} -->
 <div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Apply Coupon</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"className":"has-freemius-checkout","freemius_enabled":true,"freemius":{"plan_id":"22868","coupon":"WPTESTER","hide_coupon":true}} -->
+<!-- wp:button {"freemius_enabled":true,"freemius":{"plan_id":"22868","coupon":"WPTESTER","hide_coupon":true}} -->
 <div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Apply Coupon (hidden)</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"className":"has-freemius-checkout","freemius_enabled":true,"freemius":{"plan_id":"22868","track":"console.log('Event triggered: ' + event)"}} -->
+<!-- wp:button {"freemius_enabled":true,"freemius":{"plan_id":"22868","track":"console.log('Event triggered: ' + event)"}} -->
 <div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Run some events (check console)</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
