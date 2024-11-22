@@ -65,12 +65,19 @@ function render_button( $block_content, $block, $instance ) {
 		return $block_content;
 	}
 
+	// merge the data from the site, the page and the block
+	$site_data   = \get_option( 'freemius_button', array() );
+	$page_data   = \get_post_meta( get_the_ID(), 'freemius_button', true );
+	$blugin_data = $block['attrs']['freemius'];
+
+	$data = array_merge( $site_data, $page_data, $blugin_data );
+
 	/**
 	 * Filter the data that will be passed to the Freemius checkout.
 	 *
 	 * @param array $data The data that will be passed to the Freemius checkout.
 	 */
-	$data = \apply_filters( 'freemius_button_data', $block['attrs']['freemius'] );
+	$data = \apply_filters( 'freemius_button_data', $data );
 
 	$extra = '';
 	// $extra  .= '<pre type="application/json">' . json_encode( $data ) . '</pre>';
@@ -100,6 +107,7 @@ function register_post_meta() {
 			'single'            => true,
 			'type'              => 'object',
 			'sanitize_callback' => __NAMESPACE__ . '\sanitize_schema',
+			'default'           => array(),
 			'show_in_rest'      => array(
 				'schema' => array(
 					'type'                 => 'object',

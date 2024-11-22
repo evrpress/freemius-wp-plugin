@@ -64,13 +64,24 @@ const BlockEdit = (props) => {
 	);
 	const schema = freemius_button_schema;
 
-	const resetAll = () => {
-		setAttributes({ freemius: undefined });
+	const resetAll = (scope) => {
+		switch (scope) {
+			case "global":
+				console.log("resetting global", settings);
+				setSettings({});
+				break;
+			case "page":
+				setPageMeta({ freemius_button: {} });
+				break;
+			default:
+				setAttributes({ freemius: undefined });
+		}
 	};
 
 	const EnableCheckbox = () => (
 		<CheckboxControl
-			label={__("Open a Freemius Checkout with this button.", "freemius")}
+			__nextHasNoMarginBottom
+			label={__("Freemius Checkout.", "freemius")}
 			checked={freemius_enabled}
 			onChange={(val) => setAttributes({ freemius_enabled: val })}
 		/>
@@ -82,8 +93,6 @@ const BlockEdit = (props) => {
 			...pageMeta.freemius_button,
 			...freemius,
 		};
-
-		console.log(args);
 		const { plugin_id, public_key } = args;
 		if (!plugin_id || !public_key) {
 			alert("Please fill in plugin_id and public_key");
@@ -258,8 +267,7 @@ const BlockEdit = (props) => {
 			</BlockControls>
 			<ToolsPanel
 				className={"freemius-button-scope-" + scope}
-				resetAll={resetAll}
-				shouldRenderPlaceholderItems={true}
+				resetAll={() => resetAll(scope)}
 				label={
 					__("Freemius Button", "freemius") +
 					" - (" +
@@ -322,180 +330,16 @@ const BlockEdit = (props) => {
 					})}
 				</div>
 			</ToolsPanel>
-
-			<ToolsPanel
-				label={__("ToolsPanelFreemius Button", "freemius")}
-				resetAll={resetAll}
-				shouldRenderPlaceholderItems={true}
-			>
-				<PanelDescription>
-					<EnableCheckbox />
-					<Button onClick={previewCheckout} variant="secondary">
-						{__("Preview Checkout", "freemius")}
-					</Button>
-				</PanelDescription>
-			</ToolsPanel>
 		</InspectorControls>
 	);
 };
 
-const FsToolItem_OLD = (props) => {
-	const {
-		label,
-		id,
-		help,
-		type,
-		options,
-		link,
-		isDeprecated,
-		isRequired,
-		attributes,
-		setAttributes,
-		onChange,
-		tab,
-	} = props;
-
-	const postType = useSelect((select) =>
-		select("core/editor").getCurrentPostType(),
-	);
-
-	const [pageMeta, setPageMeta] = useEntityProp("postType", postType, "meta");
-	const [settings, setSettings] = useEntityProp(
-		"root",
-		"site",
-		"freemius_button",
-	);
-
-	const isGlobal = tab.name === "global";
-	const isPage = tab.name === "page";
-
-	const pageArgs = pageMeta?.freemius_button ? pageMeta?.freemius_button : {};
-	const siteArgs = settings || {};
-
-	const setOption = (key, values) => {
-		let newValue;
-
-		switch (tab.name) {
-			case "global":
-				newValue = { ...siteArgs };
-				break;
-			case "page":
-				newValue = { ...pageArgs };
-				break;
-			default:
-				newValue = { ...freemius };
-		}
-
-		newValue[key] = values;
-		if (values === undefined) {
-			delete newValue[key];
-		}
-
-		if (Object.keys(newValue).length === 0) {
-			newValue = {};
-		}
-
-		// remove entries which are the default value from Attributes
-		// Object.keys(newValue).forEach((key) => {
-		// 	if (Attributes[key] === newValue[key]) {
-		// 		delete newValue[key];
-		// 	}
-		// });
-
-		switch (tab.name) {
-			case "global":
-				setSettings(newValue);
-				break;
-			case "page":
-				setPageMeta({ freemius_button: newValue });
-				break;
-			default:
-				setAttributes({ freemius: newValue });
-		}
-
-		//setAttributes({ freemius: { ...attributes.freemius, ...options } });
-	};
-	let value,
-		placeholder,
-		overwrite = "";
-
-	const globalValue = siteArgs[id] ? siteArgs[id] : undefined;
-	const pageValue = pageMeta["freemius_button"][id];
-	const localValue = attributes.freemius[id]
-		? attributes.freemius[id]
-		: undefined;
-
-	switch (tab.name) {
-		case "global":
-			value = globalValue;
-
-			break;
-		case "page":
-			value = pageValue;
-
-			break;
-		default:
-			value = attributes.freemius[id] ? attributes.freemius[id] : undefined;
-	}
-
-	switch (tab.name) {
-		case "button":
-			if (globalValue !== undefined) {
-				placeholder = globalValue + " (global settings)";
-			}
-			if (pageValue !== undefined) {
-				placeholder = pageValue + " (page settings)";
-			}
-			break;
-		case "page":
-			if (localValue !== undefined) {
-				overwrite = "Overwritten by local settings";
-			}
-			if (globalValue !== undefined) {
-				placeholder = globalValue + " (global settings)";
-			}
-			break;
-		case "global":
-			if (pageValue !== undefined) {
-				overwrite = "Overwritten by page settings";
-			}
-
-			break;
-	}
-
-	let type_of = type || typeof Attributes[id];
-	if (options) {
-		type_of = "array";
-	}
-	let the_link =
-		link ||
-		"https://freemius.com/help/documentation/selling-with-freemius/freemius-checkout-buy-button/#" +
-			id;
-	let the_label = label;
-	const onChangeHandler = (val) => {
-		if (onChange) {
-			val = onChange(val);
-		}
-		setOption(id, val);
-	};
-
-	if (isDeprecated) {
-		the_label += " (deprecated)";
-	}
-	if (isRequired) {
-		the_label += " (required)";
-	}
-	the_label += " (tab: " + tab.name + ")";
-};
-
 const generateClassName = (attributes) => {
-	return "";
-	const { plugin_id } = attributes.freemius;
-	let string = "";
-	if (plugin_id) {
-		string += `has-freemius-checkout has-freemius-checkout-${plugin_id}`;
-	}
-	return string;
+	const { freemius_enabled, freemius } = attributes;
+
+	if (!freemius_enabled) return "";
+
+	return "has-freemius-checkout";
 };
 
 registerBlockExtension(["core/button"], {
@@ -555,26 +399,26 @@ const FsToolItem = (props) => {
 	return (
 		<ToolsPanelItem
 			className="freemius-button-scope"
-			hasValue={() => !!value}
+			hasValue={() => {
+				return value != undefined || inherited;
+			}}
 			label={label}
-			onDeselect={() => setOption(id, undefined)}
-			isShownByDefault={true}
+			onDeselect={() => onChangeHandler(undefined)}
+			isShownByDefault={isRequired}
 		>
-			<BaseControl help={overwrite}>
+			<BaseControl help={overwrite} __nextHasNoMarginBottom>
 				<ExternalLink className="freemius-link" href={the_link} />
 				{(() => {
 					switch (type) {
 						case "boolean":
 							return (
 								<CheckboxControl
+									__nextHasNoMarginBottom
 									checked={!!value || false}
 									label={the_label}
 									help={help}
 									indeterminate={!!placeholder && value == undefined}
-									onChange={(val) => {
-										console.log(val);
-										onChangeHandler(val);
-									}}
+									onChange={onChangeHandler}
 								/>
 							);
 
@@ -593,6 +437,7 @@ const FsToolItem = (props) => {
 						case "array":
 							return (
 								<SelectControl
+									__nextHasNoMarginBottom
 									value={value}
 									label={the_label}
 									help={help}
@@ -606,6 +451,7 @@ const FsToolItem = (props) => {
 						case "code":
 							return (
 								<TextareaControl
+									__nextHasNoMarginBottom
 									value={value || ""}
 									label={the_label}
 									help={help}
@@ -618,6 +464,7 @@ const FsToolItem = (props) => {
 							return (
 								<>
 									<TextControl
+										__nextHasNoMarginBottom
 										value={value || ""}
 										label={the_label}
 										help={help}
