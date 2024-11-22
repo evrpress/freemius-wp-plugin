@@ -55,6 +55,8 @@ jobs:
           echo "zip_name=$ZIP_NAME" >> $GITHUB_OUTPUT
           git status
           ls -l
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           git add $ZIP_NAME -f
           git commit -m "added file $ZIP_NAME"
           git push
