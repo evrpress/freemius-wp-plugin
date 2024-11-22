@@ -23,7 +23,7 @@
 			"step": "importWxr",
 			"file": {
 				"resource": "url",
-				"url": "https://raw.githubusercontent.com/evrpress/freemius-button/refs/heads/main/.wordpress-org/blueprints/content.xml"
+				"url": "https://raw.githubusercontent.com/evrpress/freemius-button/refs/heads/develop/.wordpress-org/blueprints/content.xml"
 			}
 		}
 	]
