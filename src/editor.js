@@ -137,6 +137,13 @@ const BlockEdit = (props) => {
 	};
 
 	const openCheckout = () => {
+		// build arguments starting from global, page and button
+		const args = {
+			...settings,
+			...pageMeta.freemius_button,
+			...freemius,
+		};
+
 		const { plugin_id, public_key } = args;
 		if (!plugin_id || !public_key) {
 			alert("Please fill in plugin_id and public_key");
@@ -148,13 +155,6 @@ const BlockEdit = (props) => {
 
 		//add class to the body
 		document.body.classList.add("freemius-checkout-preview");
-
-		// build arguments starting from global, page and button
-		const args = {
-			...settings,
-			...pageMeta.freemius_button,
-			...freemius,
-		};
 
 		const handler = new FS.Checkout({
 			plugin_id: plugin_id,
