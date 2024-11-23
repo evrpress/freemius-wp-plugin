@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9b5fd6635f94a47723d5bed5d9e9ac22",
+    "content-hash": "8a69f1b923335e966350b7e842badf93",
     "packages": [
         {
             "name": "erusev/parsedown",
-            "version": "1.8.0-beta-7",
+            "version": "1.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-                "reference": "fe7a50eceb4a3c867cc9fa9c0aa906b1067d1955"
+                "reference": "cb17b6477dfff935958ba01325f2e8a2bfa6dab3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/fe7a50eceb4a3c867cc9fa9c0aa906b1067d1955",
-                "reference": "fe7a50eceb4a3c867cc9fa9c0aa906b1067d1955",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/cb17b6477dfff935958ba01325f2e8a2bfa6dab3",
+                "reference": "cb17b6477dfff935958ba01325f2e8a2bfa6dab3",
                 "shasum": ""
             },
             "require": {
@@ -52,45 +52,45 @@
             ],
             "support": {
                 "issues": "https://github.com/erusev/parsedown/issues",
-                "source": "https://github.com/erusev/parsedown/tree/1.8.0-beta-7"
+                "source": "https://github.com/erusev/parsedown/tree/1.7.x"
             },
-            "time": "2019-03-17T18:47:21+00:00"
+            "time": "2019-12-30T22:54:17+00:00"
         },
         {
             "name": "evrpress/wp-updater",
-            "version": "dev-main",
+            "version": "0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/evrpress/wp-updater.git",
-                "reference": "728047494c99973f8ab4c6ca497f2c7ebe11a6b4"
+                "reference": "541412bc710a86917542675acb3e072647ef72c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/evrpress/wp-updater/zipball/728047494c99973f8ab4c6ca497f2c7ebe11a6b4",
-                "reference": "728047494c99973f8ab4c6ca497f2c7ebe11a6b4",
+                "url": "https://api.github.com/repos/evrpress/wp-updater/zipball/541412bc710a86917542675acb3e072647ef72c9",
+                "reference": "541412bc710a86917542675acb3e072647ef72c9",
                 "shasum": ""
             },
             "require": {
                 "erusev/parsedown": "^1.7"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
                     "./WPUpdater.php"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "description": "A small helper for Wordpress plugins",
             "support": {
-                "source": "https://github.com/evrpress/wp-updater/tree/0.1.1",
-                "issues": "https://github.com/evrpress/wp-updater/issues"
+                "issues": "https://github.com/evrpress/wp-updater/issues",
+                "source": "https://github.com/evrpress/wp-updater/tree/0.1.2"
             },
-            "time": "2024-11-21T11:05:26+00:00"
+            "time": "2024-11-23T08:55:27+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
