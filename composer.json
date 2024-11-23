@@ -1,13 +1,6 @@
 {
 	"name": "evrpress/freemius-button",
-	"minimum-stability": "dev",
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "https://github.com/evrpress/wp-updater.git"
-		}
-	],
 	"require": {
-		"evrpress/wp-updater": "*"
+		"evrpress/wp-updater": "^0.1.2"
 	}
 }

@@ -7,7 +7,7 @@ namespace EverPress\FreemiusButton;
  * Description:       Freemius Button
  * Requires at least: 6.6
  * Requires PHP:      7.4
- * Version:           0.1.2
+ * Version:           0.1.3
  * Author:            Xaver
  *
  * @package CreateBlock
@@ -95,6 +95,7 @@ function render_button( $block_content, $block, $instance ) {
 
 	return $extra . $block_content;
 }
+
 
 // register custom post meta to store the button data
 \add_action( 'init', __NAMESPACE__ . '\register_post_meta' );

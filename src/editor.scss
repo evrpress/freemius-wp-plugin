@@ -13,6 +13,11 @@
 	}
 }
 
+/* Hide the toolbar */
+body.freemius-checkout-preview .block-editor-block-popover {
+	display: none;
+}
+
 .freemius-button-scopes-wrap {
 	max-height: 50vh;
 	overflow: auto;

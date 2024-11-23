@@ -30,7 +30,7 @@ import {
 import { useSelect } from "@wordpress/data";
 import { useState, useEffect, useRef } from "@wordpress/element";
 import { useEntityProp } from "@wordpress/core-data";
-import { Icon, globe, page, button } from "@wordpress/icons";
+import { Icon, globe, page, button, handle } from "@wordpress/icons";
 
 /**
  * Internal dependencies
@@ -48,9 +48,10 @@ const BlockEdit = (props) => {
 
 	const { freemius_enabled, freemius } = attributes;
 
-	const status = useScript("https://checkout.freemius.com/checkout.min.js", {
-		removeOnUnmount: false,
-	});
+	const [preview, setPreview] = useState(false);
+	const [FS, setFS] = useState();
+	const [handler, setHandler] = useState();
+	const [isLoading, setLoading] = useState(false);
 
 	const [scope, setScope] = useState("button");
 	const postType = useSelect((select) =>
@@ -64,10 +65,17 @@ const BlockEdit = (props) => {
 	);
 	const schema = freemius_button_schema;
 
+	useEffect(() => {
+		if (preview) {
+			openCheckout();
+		} else {
+			closeCheckout();
+		}
+	}, [preview]);
+
 	const resetAll = (scope) => {
 		switch (scope) {
 			case "global":
-				console.log("resetting global", settings);
 				setSettings({});
 				break;
 			case "page":
@@ -87,40 +95,93 @@ const BlockEdit = (props) => {
 		/>
 	);
 
-	const previewCheckout = () => {
+	// load script in the iframe
+	useEffect(() => {
+		const iframe = document.querySelector('iframe[name="editor-canvas"]');
+		const iframeDoc = iframe.contentDocument;
+		const s = iframeDoc.createElement("script");
+		s.type = "text/javascript";
+		s.src = "https://checkout.freemius.com/js/v1/";
+		s.onload = () => setFS(iframe.contentWindow.FS);
+
+		iframeDoc.body.appendChild(s);
+	}, []);
+
+	useEffect(() => {
+		if (!preview) return;
+
+		const t = setTimeout(() => {
+			console.log("SETTing changed");
+			closeCheckout();
+			openCheckout();
+		}, 200);
+
+		return () => clearTimeout(t);
+	}, [settings, pageMeta.freemius_button, freemius]);
+
+	const closeCheckout = () => {
+		if (!handler) return;
+
+		handler && handler.close();
+
+		const iframe = document.querySelector('iframe[name="editor-canvas"]');
+		const iframeDoc = iframe.contentDocument;
+
+		iframeDoc.getElementById("fs-checkout-page-" + handler.guid)?.remove();
+		iframeDoc.getElementById("fs-loader-" + handler.guid)?.remove();
+		iframeDoc.getElementById("fs-exit-intent-" + handler.guid)?.remove();
+
+		document.body.classList.remove("freemius-checkout-preview");
+
+		setLoading(false);
+	};
+
+	const openCheckout = () => {
+		// build arguments starting from global, page and button
 		const args = {
 			...settings,
 			...pageMeta.freemius_button,
 			...freemius,
 		};
+
 		const { plugin_id, public_key } = args;
 		if (!plugin_id || !public_key) {
 			alert("Please fill in plugin_id and public_key");
 			return;
 		}
+
 		// do not modify the original object
 		const args_copy = { ...args };
 
-		// build arguments starting from global, page and button
+		//add class to the body
+		document.body.classList.add("freemius-checkout-preview");
 
-		const handler = FS.Checkout.configure({
+		const handler = new FS.Checkout({
 			plugin_id: plugin_id,
 			public_key: public_key,
 		});
 
 		const errorTimeout = setTimeout(() => {
+			const iframe = document.querySelector('iframe[name="editor-canvas"]');
+			const iframeDoc = iframe.contentDocument;
+
 			alert(
-				"Freemius Checkout is not available. It's most likely a settings is wrong.",
+				"Freemius Checkout is not available. It's most likely a settings is wrong:\n" +
+					iframeDoc.body.innerHTML,
 			);
-			handler.clearOptions();
-			handler.close();
+			// handler.close(); not working
+			errorTimeout && clearTimeout(errorTimeout);
+			setPreview(false);
 		}, 5000);
 
-		if (args.cancel) {
-			args_copy.cancel = function () {
+		args_copy.cancel = function () {
+			errorTimeout && clearTimeout(errorTimeout);
+			setPreview(false);
+			if (args.cancel) {
 				new Function(args.cancel).apply(this);
-			};
-		}
+			}
+		};
+
 		if (args.purchaseCompleted) {
 			args_copy.purchaseCompleted = function (data) {
 				new Function("data", args.purchaseCompleted).apply(this, [data]);
@@ -134,6 +195,7 @@ const BlockEdit = (props) => {
 
 		args_copy.track = function (event, data) {
 			errorTimeout && clearTimeout(errorTimeout);
+			setLoading(false);
 
 			if (args.track) {
 				new Function("event", "data", args.track).apply(this, [event, data]);
@@ -141,6 +203,9 @@ const BlockEdit = (props) => {
 		};
 
 		handler.open(args_copy);
+
+		setHandler(handler);
+		setLoading(true);
 	};
 
 	const getValueFor = (key, scope) => {
@@ -261,7 +326,7 @@ const BlockEdit = (props) => {
 					<ToolbarButton
 						label={__("Preview Checkout", "freemius")}
 						icon={"visibility"}
-						onClick={previewCheckout}
+						onClick={() => setPreview(true)}
 					/>
 				</ToolbarGroup>
 			</BlockControls>
@@ -278,11 +343,16 @@ const BlockEdit = (props) => {
 				<PanelDescription>
 					<EnableCheckbox />
 					<Button
-						onClick={previewCheckout}
+						onClick={() => setPreview(!preview)}
 						icon={"visibility"}
+						isBusy={isLoading}
+						disabled={isLoading}
+						isPressed={preview}
 						variant="secondary"
 					>
-						{__("Preview Checkout", "freemius")}
+						{preview && !isLoading
+							? __("Close Preview", "freemius")
+							: __("Preview Checkout", "freemius")}
 					</Button>
 				</PanelDescription>
 				<TabPanel
@@ -319,6 +389,7 @@ const BlockEdit = (props) => {
 								id={key}
 								scope={scope}
 								help={item.help}
+								code={item?.code}
 								defaultValue={item.default}
 								isDeprecated={item.isDeprecated}
 								isRequired={item.isRequired}
@@ -371,6 +442,7 @@ const FsToolItem = (props) => {
 		isRequired,
 		placeholder,
 		value,
+		code,
 		onChange,
 		defaultValue,
 	} = props;
@@ -385,6 +457,8 @@ const FsToolItem = (props) => {
 	let the_type = type;
 	if (options) {
 		the_type = "array";
+	} else if (code) {
+		the_type = "code";
 	}
 
 	if (inherited) {
@@ -437,6 +511,8 @@ const FsToolItem = (props) => {
 									value={value || ""}
 									label={the_label}
 									help={help}
+									spinControls="none"
+									min={0}
 									placeholder={placeholder ? "[" + placeholder + "]" : ""}
 									onChange={onChangeHandler}
 								/>
