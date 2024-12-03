@@ -111,7 +111,6 @@ const BlockEdit = (props) => {
 		if (!preview) return;
 
 		const t = setTimeout(() => {
-			console.log("SETTing changed");
 			closeCheckout();
 			openCheckout();
 		}, 200);
@@ -153,29 +152,19 @@ const BlockEdit = (props) => {
 		// do not modify the original object
 		const args_copy = { ...args };
 
+
 		//add class to the body
 		document.body.classList.add("freemius-checkout-preview");
+
+		const iframe = document.querySelector('iframe[name="editor-canvas"]');
 
 		const handler = new FS.Checkout({
 			plugin_id: plugin_id,
 			public_key: public_key,
 		});
 
-		const errorTimeout = setTimeout(() => {
-			const iframe = document.querySelector('iframe[name="editor-canvas"]');
-			const iframeDoc = iframe.contentDocument;
-
-			alert(
-				"Freemius Checkout is not available. It's most likely a settings is wrong:\n" +
-					iframeDoc.body.innerHTML,
-			);
-			// handler.close(); not working
-			errorTimeout && clearTimeout(errorTimeout);
-			setPreview(false);
-		}, 5000);
-
+		// close the privew if cancel is clicked
 		args_copy.cancel = function () {
-			errorTimeout && clearTimeout(errorTimeout);
 			setPreview(false);
 			if (args.cancel) {
 				new Function(args.cancel).apply(this);
@@ -193,16 +182,33 @@ const BlockEdit = (props) => {
 			};
 		}
 
+		// store a flag to check if popup is loaded successfully
+		let popup_success = false;
+
 		args_copy.track = function (event, data) {
-			errorTimeout && clearTimeout(errorTimeout);
+			if (event === "load") {
+				popup_success = true;
+			}
 			setLoading(false);
 
 			if (args.track) {
 				new Function("event", "data", args.track).apply(this, [event, data]);
 			}
+			setTimeout(() => {
+				handler.close();
+			}, 5000);
 		};
 
 		handler.open(args_copy);
+
+		//loader is finished
+		handler.checkoutPopup.checkoutIFrame.iFrame.onload = () => {
+			if (popup_success) return;
+
+			alert("Freemius Checkout is not available with your current settings!");
+
+			setPreview(false);
+		};
 
 		setHandler(handler);
 		setLoading(true);
@@ -486,7 +492,10 @@ const FsToolItem = (props) => {
 			onDeselect={() => onChangeHandler(undefined)}
 			isShownByDefault={isRequired}
 		>
-			<BaseControl help={overwrite} __nextHasNoMarginBottom>
+			<BaseControl
+				__nextHasNoMarginBottom
+				help={overwrite}
+			>
 				<ExternalLink className="freemius-link" href={the_link} />
 				{(() => {
 					switch (the_type) {
