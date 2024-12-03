@@ -42,16 +42,17 @@ return array(
 		),
 	),
 	'name'                          => array(
-		'label'   => __( 'Product Title', 'freemius' ),
-		'type'    => 'string',
-		'default' => '',
-		'help'    => __(
-			"An optional string to override the product's title.",
+		'label'        => __( 'Name', 'freemius' ),
+		'type'         => 'string',
+		'default'      => '',
+		'isDeprecated' => true,
+		'help'         => __(
+			"An optional string to override the product's title. (deprecated, use 'title' instead)",
 			'freemius'
 		),
 	),
 	'title'                         => array(
-		'label'   => __( 'Checkout Title', 'freemius' ),
+		'label'   => __( 'Title', 'freemius' ),
 		'type'    => 'string',
 		'default' => '',
 		'help'    => __(
@@ -81,7 +82,7 @@ return array(
 	'plan_id'                       => array(
 		'label'   => __( 'Plan ID', 'freemius' ),
 		'type'    => 'integer',
-		'default' => null,
+		'default' => '',
 		'help'    => __(
 			'The ID of the plan that will load with the checkout. When selling multiple plans you can set the param when calling the open() method.',
 			'freemius'

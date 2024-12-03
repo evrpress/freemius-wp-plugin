@@ -6,6 +6,8 @@ on:
     paths-ignore:
       - ".github/**"
       - ".wordpress-org/**"
+      - "**.json"
+      - "**.lock"
     branches:
       - develop
 
