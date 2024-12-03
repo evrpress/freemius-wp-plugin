@@ -42,16 +42,17 @@ return array(
 		),
 	),
 	'name'                          => array(
-		'label'   => __( 'Product Title', 'freemius' ),
-		'type'    => 'string',
-		'default' => '',
-		'help'    => __(
-			"An optional string to override the product's title.",
+		'label'        => __( 'Name', 'freemius' ),
+		'type'         => 'string',
+		'default'      => '',
+		'isDeprecated' => true,
+		'help'         => __(
+			"An optional string to override the product's title. (deprecated, use 'title' instead)",
 			'freemius'
 		),
 	),
 	'title'                         => array(
-		'label'   => __( 'Checkout Title', 'freemius' ),
+		'label'   => __( 'Title', 'freemius' ),
 		'type'    => 'string',
 		'default' => '',
 		'help'    => __(
