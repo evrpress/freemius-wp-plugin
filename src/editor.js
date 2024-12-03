@@ -49,6 +49,7 @@ const BlockEdit = (props) => {
 	const { freemius_enabled, freemius } = attributes;
 
 	const [preview, setPreview] = useState(false);
+	const [live, setLive] = useState(false);
 	const [FS, setFS] = useState();
 	const [handler, setHandler] = useState();
 	const [isLoading, setLoading] = useState(false);
@@ -101,6 +102,7 @@ const BlockEdit = (props) => {
 		const iframeDoc = iframe.contentDocument;
 		const s = iframeDoc.createElement("script");
 		s.type = "text/javascript";
+
 		s.src = "https://checkout.freemius.com/js/v1/";
 		s.onload = () => setFS(iframe.contentWindow.FS);
 
@@ -109,14 +111,15 @@ const BlockEdit = (props) => {
 
 	useEffect(() => {
 		if (!preview) return;
+		if (!live) return;
 
 		const t = setTimeout(() => {
 			closeCheckout();
 			openCheckout();
-		}, 200);
+		}, 850); // 850ms is the time it takes for the preview to load
 
 		return () => clearTimeout(t);
-	}, [settings, pageMeta.freemius_button, freemius]);
+	}, [settings, pageMeta.freemius_button, freemius, live]);
 
 	const closeCheckout = () => {
 		if (!handler) return;
@@ -126,6 +129,7 @@ const BlockEdit = (props) => {
 		const iframe = document.querySelector('iframe[name="editor-canvas"]');
 		const iframeDoc = iframe.contentDocument;
 
+		// close doesn't seem to work in an iframe :()
 		iframeDoc.getElementById("fs-checkout-page-" + handler.guid)?.remove();
 		iframeDoc.getElementById("fs-loader-" + handler.guid)?.remove();
 		iframeDoc.getElementById("fs-exit-intent-" + handler.guid)?.remove();
@@ -151,7 +155,6 @@ const BlockEdit = (props) => {
 
 		// do not modify the original object
 		const args_copy = { ...args };
-
 
 		//add class to the body
 		document.body.classList.add("freemius-checkout-preview");
@@ -348,6 +351,12 @@ const BlockEdit = (props) => {
 			>
 				<PanelDescription>
 					<EnableCheckbox />
+					<CheckboxControl
+						__nextHasNoMarginBottom
+						label={__("Auto Refresh", "freemius")}
+						checked={live}
+						onChange={(val) => setLive(!live)}
+					/>
 					<Button
 						onClick={() => setPreview(!preview)}
 						icon={"visibility"}
@@ -492,10 +501,7 @@ const FsToolItem = (props) => {
 			onDeselect={() => onChangeHandler(undefined)}
 			isShownByDefault={isRequired}
 		>
-			<BaseControl
-				__nextHasNoMarginBottom
-				help={overwrite}
-			>
+			<BaseControl __nextHasNoMarginBottom help={overwrite}>
 				<ExternalLink className="freemius-link" href={the_link} />
 				{(() => {
 					switch (the_type) {
