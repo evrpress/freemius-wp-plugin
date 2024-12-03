@@ -1,6 +1,6 @@
 {
 	"name": "evrpress/freemius-button",
 	"require": {
-		"evrpress/wp-updater": "^0.1.3"
+		"evrpress/wp-updater": "^0.1.4"
 	}
 }
