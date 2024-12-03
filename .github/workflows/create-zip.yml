@@ -2,15 +2,6 @@
 name: "Create Zip"
 
 on:
-  push:
-    paths-ignore:
-      - ".github/**"
-      - ".wordpress-org/**"
-      - "**.json"
-      - "**.lock"
-    branches:
-      - develop
-
   workflow_dispatch:
 
 permissions: write-all
