@@ -81,7 +81,7 @@ return array(
 	'plan_id'                       => array(
 		'label'   => __( 'Plan ID', 'freemius' ),
 		'type'    => 'integer',
-		'default' => null,
+		'default' => '',
 		'help'    => __(
 			'The ID of the plan that will load with the checkout. When selling multiple plans you can set the param when calling the open() method.',
 			'freemius'
