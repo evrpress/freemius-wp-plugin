@@ -96,15 +96,28 @@ const BlockEdit = (props) => {
 		/>
 	);
 
+	const getDocument = () => {
+		const iframe = document.querySelector('iframe[name="editor-canvas"]');
+		if (!iframe) {
+			return document;
+		}
+		return iframe.contentDocument;
+	};
+	const getWindow = () => {
+		const iframe = document.querySelector('iframe[name="editor-canvas"]');
+		if (!iframe) {
+			return window;
+		}
+		return iframe.contentWindow;
+	};
+
 	// load script in the iframe
 	useEffect(() => {
-		const iframe = document.querySelector('iframe[name="editor-canvas"]');
-		const iframeDoc = iframe.contentDocument;
+		const iframeDoc = getDocument();
 		const s = iframeDoc.createElement("script");
 		s.type = "text/javascript";
-
 		s.src = "https://checkout.freemius.com/js/v1/";
-		s.onload = () => setFS(iframe.contentWindow.FS);
+		s.onload = () => setFS(getWindow().FS);
 
 		iframeDoc.body.appendChild(s);
 	}, []);
@@ -126,8 +139,7 @@ const BlockEdit = (props) => {
 
 		handler && handler.close();
 
-		const iframe = document.querySelector('iframe[name="editor-canvas"]');
-		const iframeDoc = iframe.contentDocument;
+		const iframeDoc = getDocument();
 
 		// close doesn't seem to work in an iframe :()
 		iframeDoc.getElementById("fs-checkout-page-" + handler.guid)?.remove();
@@ -159,7 +171,7 @@ const BlockEdit = (props) => {
 		//add class to the body
 		document.body.classList.add("freemius-checkout-preview");
 
-		const iframe = document.querySelector('iframe[name="editor-canvas"]');
+		const iframeDoc = getDocument();
 
 		const handler = new FS.Checkout({
 			plugin_id: plugin_id,
@@ -197,9 +209,6 @@ const BlockEdit = (props) => {
 			if (args.track) {
 				new Function("event", "data", args.track).apply(this, [event, data]);
 			}
-			setTimeout(() => {
-				handler.close();
-			}, 5000);
 		};
 
 		handler.open(args_copy);
