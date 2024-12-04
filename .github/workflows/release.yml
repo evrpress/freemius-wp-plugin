@@ -83,9 +83,8 @@ jobs:
           ZIP_NAME="${{ steps.read_version.outputs.project_name }}.zip"
           ls -la
           # remove updater and zip again
-          if [ composer show --tree | grep "evrpress/wp-updater" ]; then
-              composer remove evrpress/wp-updater             
-              npm run plugin-zip
+          if composer show --tree | grep -q "evrpress/wp-updater"; then
+            composer remove evrpress/wp-updater
           fi
           #unzip into dist for WordPress Plugin Deploy
           unzip $ZIP_NAME -d dist
