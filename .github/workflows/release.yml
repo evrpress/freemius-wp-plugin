@@ -84,8 +84,9 @@ jobs:
           ls -la
           # remove updater and zip again
           if composer show --tree | grep -q "evrpress/wp-updater"; then
-            composer remove evrpress/wp-updater
-            rm -f $ZIP_NAME
+              composer remove evrpress/wp-updater
+              rm -f $ZIP_NAME
+              npm run plugin-zip
           fi
           #unzip into dist for WordPress Plugin Deploy
           unzip $ZIP_NAME -d dist
