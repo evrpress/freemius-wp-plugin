@@ -9,8 +9,6 @@ namespace EverPress\FreemiusButton;
  * Requires PHP:      7.4
  * Version:           0.1.5
  * Author:            Xaver
- *
- * @package CreateBlock
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
