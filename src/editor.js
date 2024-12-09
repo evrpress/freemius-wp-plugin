@@ -1,15 +1,15 @@
 /**
  * External dependencies
  */
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 /**
  * WordPress dependencies
  */
 
-import { __ } from "@wordpress/i18n";
-import { registerBlockExtension, useScript } from "@10up/block-components";
+import { __ } from '@wordpress/i18n';
+import { registerBlockExtension } from '@10up/block-components';
 
-import { InspectorControls, BlockControls } from "@wordpress/block-editor";
+import { InspectorControls, BlockControls } from '@wordpress/block-editor';
 import {
 	BaseControl,
 	SelectControl,
@@ -26,18 +26,18 @@ import {
 	ToolbarGroup,
 	TabPanel,
 	Tip,
-} from "@wordpress/components";
-import { useSelect } from "@wordpress/data";
-import { useState, useEffect, useRef } from "@wordpress/element";
-import { useEntityProp } from "@wordpress/core-data";
-import { Icon, globe, page, button, handle } from "@wordpress/icons";
+} from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+import { useState, useEffect, useRef } from '@wordpress/element';
+import { useEntityProp } from '@wordpress/core-data';
+import { Icon, globe, page, button, handle } from '@wordpress/icons';
 
 /**
  * Internal dependencies
  */
 
-import "./editor.scss";
-import { Attributes } from "./attributes";
+import './editor.scss';
+import { Attributes } from './attributes';
 
 const PanelDescription = styled.div`
 	grid-column: span 2;
@@ -54,16 +54,19 @@ const BlockEdit = (props) => {
 	const [handler, setHandler] = useState();
 	const [isLoading, setLoading] = useState(false);
 
-	const [scope, setScope] = useState("button");
+	const [scope, setScope] = useState('button');
 	const postType = useSelect((select) =>
-		select("core/editor").getCurrentPostType(),
+		select('core/editor').getCurrentPostType()
 	);
-	const [pageMeta, setPageMeta] = useEntityProp("postType", postType, "meta");
+	const [pageMeta, setPageMeta] = useEntityProp('postType', postType, 'meta');
 	const [settings, setSettings] = useEntityProp(
-		"root",
-		"site",
-		"freemius_button",
+		'root',
+		'site',
+		'freemius_button'
 	);
+
+	console.log('Settings', settings);
+	console.log('pageMeta', pageMeta);
 	const schema = freemius_button_schema;
 
 	useEffect(() => {
@@ -76,10 +79,10 @@ const BlockEdit = (props) => {
 
 	const resetAll = (scope) => {
 		switch (scope) {
-			case "global":
+			case 'global':
 				setSettings({});
 				break;
-			case "page":
+			case 'page':
 				setPageMeta({ freemius_button: {} });
 				break;
 			default:
@@ -90,7 +93,7 @@ const BlockEdit = (props) => {
 	const EnableCheckbox = () => (
 		<CheckboxControl
 			__nextHasNoMarginBottom
-			label={__("Freemius Checkout.", "freemius")}
+			label={__('Freemius Checkout.', 'freemius-button')}
 			checked={freemius_enabled}
 			onChange={(val) => setAttributes({ freemius_enabled: val })}
 		/>
@@ -114,9 +117,9 @@ const BlockEdit = (props) => {
 	// load script in the iframe
 	useEffect(() => {
 		const iframeDoc = getDocument();
-		const s = iframeDoc.createElement("script");
-		s.type = "text/javascript";
-		s.src = "https://checkout.freemius.com/js/v1/";
+		const s = iframeDoc.createElement('script');
+		s.type = 'text/javascript';
+		s.src = 'https://checkout.freemius.com/js/v1/';
 		s.onload = () => setFS(getWindow().FS);
 
 		iframeDoc.body.appendChild(s);
@@ -132,7 +135,7 @@ const BlockEdit = (props) => {
 		}, 850); // 850ms is the time it takes for the preview to load
 
 		return () => clearTimeout(t);
-	}, [settings, pageMeta.freemius_button, freemius, live]);
+	}, [settings, pageMeta?.freemius_button, freemius, live]);
 
 	const closeCheckout = () => {
 		if (!handler) return;
@@ -142,11 +145,11 @@ const BlockEdit = (props) => {
 		const iframeDoc = getDocument();
 
 		// close doesn't seem to work in an iframe :()
-		iframeDoc.getElementById("fs-checkout-page-" + handler.guid)?.remove();
-		iframeDoc.getElementById("fs-loader-" + handler.guid)?.remove();
-		iframeDoc.getElementById("fs-exit-intent-" + handler.guid)?.remove();
+		iframeDoc.getElementById('fs-checkout-page-' + handler.guid)?.remove();
+		iframeDoc.getElementById('fs-loader-' + handler.guid)?.remove();
+		iframeDoc.getElementById('fs-exit-intent-' + handler.guid)?.remove();
 
-		document.body.classList.remove("freemius-checkout-preview");
+		document.body.classList.remove('freemius-checkout-preview');
 
 		setLoading(false);
 	};
@@ -155,13 +158,13 @@ const BlockEdit = (props) => {
 		// build arguments starting from global, page and button
 		const args = {
 			...settings,
-			...pageMeta.freemius_button,
+			...pageMeta?.freemius_button,
 			...freemius,
 		};
 
 		const { plugin_id, public_key } = args;
 		if (!plugin_id || !public_key) {
-			alert("Please fill in plugin_id and public_key");
+			alert('Please fill in plugin_id and public_key');
 			return;
 		}
 
@@ -169,7 +172,7 @@ const BlockEdit = (props) => {
 		const args_copy = { ...args };
 
 		//add class to the body
-		document.body.classList.add("freemius-checkout-preview");
+		document.body.classList.add('freemius-checkout-preview');
 
 		const iframeDoc = getDocument();
 
@@ -188,12 +191,12 @@ const BlockEdit = (props) => {
 
 		if (args.purchaseCompleted) {
 			args_copy.purchaseCompleted = function (data) {
-				new Function("data", args.purchaseCompleted).apply(this, [data]);
+				new Function('data', args.purchaseCompleted).apply(this, [data]);
 			};
 		}
 		if (args.success) {
 			args_copy.success = function (data) {
-				new Function("data", args.success).apply(this, [data]);
+				new Function('data', args.success).apply(this, [data]);
 			};
 		}
 
@@ -201,13 +204,13 @@ const BlockEdit = (props) => {
 		let popup_success = false;
 
 		args_copy.track = function (event, data) {
-			if (event === "load") {
+			if (event === 'load') {
 				popup_success = true;
 			}
 			setLoading(false);
 
 			if (args.track) {
-				new Function("event", "data", args.track).apply(this, [event, data]);
+				new Function('event', 'data', args.track).apply(this, [event, data]);
 			}
 		};
 
@@ -217,7 +220,7 @@ const BlockEdit = (props) => {
 		handler.checkoutPopup.checkoutIFrame.iFrame.onload = () => {
 			if (popup_success) return;
 
-			alert("Freemius Checkout is not available with your current settings!");
+			alert('Freemius Checkout is not available with your current settings!');
 
 			setPreview(false);
 		};
@@ -228,11 +231,11 @@ const BlockEdit = (props) => {
 
 	const getValueFor = (key, scope) => {
 		switch (scope) {
-			case "global":
+			case 'global':
 				return settings?.[key];
-			case "page":
+			case 'page':
 				return pageMeta?.freemius_button?.[key];
-			case "button":
+			case 'button':
 			default:
 				return freemius?.[key];
 		}
@@ -240,14 +243,14 @@ const BlockEdit = (props) => {
 
 	const getPlaceholderFor = (key, scope) => {
 		switch (scope) {
-			case "global":
-				return "";
-			case "page":
-				return getValueFor(key, "global") || "";
-			case "button":
-				return getValueFor(key, "page") || getValueFor(key, "global") || "";
+			case 'global':
+				return '';
+			case 'page':
+				return getValueFor(key, 'global') || '';
+			case 'button':
+				return getValueFor(key, 'page') || getValueFor(key, 'global') || '';
 			default:
-				return "";
+				return '';
 		}
 	};
 
@@ -255,11 +258,11 @@ const BlockEdit = (props) => {
 		let newValue;
 
 		switch (scope) {
-			case "global":
+			case 'global':
 				newValue = { ...settings };
 				break;
-			case "page":
-				newValue = { ...pageMeta.freemius_button };
+			case 'page':
+				newValue = { ...pageMeta?.freemius_button };
 				break;
 			default:
 				newValue = { ...freemius };
@@ -270,10 +273,10 @@ const BlockEdit = (props) => {
 		// remove entries which are the default value from Attributes
 
 		switch (scope) {
-			case "global":
+			case 'global':
 				setSettings(newValue);
 				break;
-			case "page":
+			case 'page':
 				setPageMeta({ freemius_button: newValue });
 				break;
 			default:
@@ -284,7 +287,7 @@ const BlockEdit = (props) => {
 	if (!freemius_enabled) {
 		return (
 			<InspectorControls>
-				<PanelBody title={__("Freemius Button", "freemius")}>
+				<PanelBody title={__('Freemius Button', 'freemius-button')}>
 					<EnableCheckbox />
 				</PanelBody>
 			</InspectorControls>
@@ -294,25 +297,25 @@ const BlockEdit = (props) => {
 	const MyTip = (props) => {
 		const { scope } = props;
 		const { children } = props;
-		let text = "";
+		let text = '';
 		let icon = button;
 		switch (scope) {
-			case "global":
-				text = __("Changes will affect the whole site.", "freemius");
+			case 'global':
+				text = __('Changes will affect the whole site.', 'freemius-button');
 				icon = globe;
 				break;
-			case "page":
-				text = __("Changes will affect the whole page.", "freemius");
+			case 'page':
+				text = __('Changes will affect the whole page.', 'freemius-button');
 				icon = page;
 				break;
-			case "button":
-				text = __("Changes will affect only this button.", "freemius");
+			case 'button':
+				text = __('Changes will affect only this button.', 'freemius-button');
 				icon = button;
 				break;
 		}
 
 		const className =
-			"components-scope-indicator components-scope-indicator-" + scope;
+			'components-scope-indicator components-scope-indicator-' + scope;
 
 		return (
 			<div className={className}>
@@ -324,16 +327,16 @@ const BlockEdit = (props) => {
 
 	const scopes = [
 		{
-			name: "global",
-			title: "Global",
+			name: 'global',
+			title: 'Global',
 		},
 		{
-			name: "page",
-			title: "Page",
+			name: 'page',
+			title: 'Page',
 		},
 		{
-			name: "button",
-			title: "Button",
+			name: 'button',
+			title: 'Button',
 		},
 	];
 
@@ -342,41 +345,41 @@ const BlockEdit = (props) => {
 			<BlockControls>
 				<ToolbarGroup>
 					<ToolbarButton
-						label={__("Preview Checkout", "freemius")}
-						icon={"visibility"}
+						label={__('Preview Checkout', 'freemius-button')}
+						icon={'visibility'}
 						onClick={() => setPreview(true)}
 					/>
 				</ToolbarGroup>
 			</BlockControls>
 			<ToolsPanel
-				className={"freemius-button-scope-" + scope}
+				className={'freemius-button-scope-' + scope}
 				resetAll={() => resetAll(scope)}
 				label={
-					__("Freemius Button", "freemius") +
-					" - (" +
+					__('Freemius Button', 'freemius-button') +
+					' - (' +
 					scopes.filter((s) => s.name === scope)[0].title +
-					")"
+					')'
 				}
 			>
 				<PanelDescription>
 					<EnableCheckbox />
 					<CheckboxControl
 						__nextHasNoMarginBottom
-						label={__("Auto Refresh", "freemius")}
+						label={__('Auto Refresh', 'freemius-button')}
 						checked={live}
 						onChange={(val) => setLive(!live)}
 					/>
 					<Button
 						onClick={() => setPreview(!preview)}
-						icon={"visibility"}
+						icon={'visibility'}
 						isBusy={isLoading}
 						disabled={isLoading}
 						isPressed={preview}
 						variant="secondary"
 					>
 						{preview && !isLoading
-							? __("Close Preview", "freemius")
-							: __("Preview Checkout", "freemius")}
+							? __('Close Preview', 'freemius-button')
+							: __('Preview Checkout', 'freemius-button')}
 					</Button>
 				</PanelDescription>
 				<TabPanel
@@ -419,7 +422,7 @@ const BlockEdit = (props) => {
 								isRequired={item.isRequired}
 								value={value}
 								placeholder={placeholder}
-								type={item.type || "string"}
+								type={item.type || 'string'}
 								onChange={onChangeHandlerHelper}
 							/>
 						);
@@ -433,20 +436,20 @@ const BlockEdit = (props) => {
 const generateClassName = (attributes) => {
 	const { freemius_enabled, freemius } = attributes;
 
-	if (!freemius_enabled) return "";
+	if (!freemius_enabled) return '';
 
-	return "has-freemius-checkout";
+	return 'has-freemius-checkout';
 };
 
-registerBlockExtension(["core/button"], {
-	extensionName: "freemius-form-button",
+registerBlockExtension(['core/button'], {
+	extensionName: 'freemius-form-button',
 	attributes: {
 		freemius_enabled: {
-			type: "boolean",
+			type: 'boolean',
 			default: false,
 		},
 		freemius: {
-			type: "object",
+			type: 'object',
 		},
 	},
 	classNameGenerator: generateClassName,
@@ -471,27 +474,27 @@ const FsToolItem = (props) => {
 		defaultValue,
 	} = props;
 
-	const overwrite = "";
+	const overwrite = '';
 	let the_label = label;
 	const the_link =
 		link ||
-		"https://freemius.com/help/documentation/selling-with-freemius/freemius-checkout-buy-button/#" +
+		'https://freemius.com/help/documentation/selling-with-freemius/freemius-checkout-buy-button/#' +
 			id;
 	const inherited = !!placeholder && value == undefined;
 	let the_type = type;
 	if (options) {
-		the_type = "array";
+		the_type = 'array';
 	} else if (code) {
-		the_type = "code";
+		the_type = 'code';
 	}
 
 	if (inherited) {
-		the_label += " (inherited)";
+		the_label += ' (inherited)';
 	} else if (isRequired) {
-		the_label += " (required)";
+		the_label += ' (required)';
 	}
 	if (isDeprecated) {
-		the_label += " (deprecated)";
+		the_label += ' (deprecated)';
 	}
 
 	const onChangeHandler = (val) => {
@@ -514,7 +517,7 @@ const FsToolItem = (props) => {
 				<ExternalLink className="freemius-link" href={the_link} />
 				{(() => {
 					switch (the_type) {
-						case "boolean":
+						case 'boolean':
 							return (
 								<CheckboxControl
 									__nextHasNoMarginBottom
@@ -528,21 +531,21 @@ const FsToolItem = (props) => {
 								/>
 							);
 
-						case "integer":
-						case "number":
+						case 'integer':
+						case 'number':
 							return (
 								<NumberControl
-									value={value || ""}
+									value={value || ''}
 									label={the_label}
 									help={help}
 									spinControls="none"
 									min={0}
-									placeholder={placeholder ? "[" + placeholder + "]" : ""}
+									placeholder={placeholder ? '[' + placeholder + ']' : ''}
 									onChange={onChangeHandler}
 								/>
 							);
 
-						case "array":
+						case 'array':
 							return (
 								<SelectControl
 									__nextHasNoMarginBottom
@@ -556,14 +559,14 @@ const FsToolItem = (props) => {
 									})}
 								/>
 							);
-						case "code":
+						case 'code':
 							return (
 								<TextareaControl
 									__nextHasNoMarginBottom
-									value={value || ""}
+									value={value || ''}
 									label={the_label}
 									help={help}
-									placeholder={placeholder ? "[" + placeholder + "]" : ""}
+									placeholder={placeholder ? '[' + placeholder + ']' : ''}
 									onChange={onChangeHandler}
 									rows={value ? 10 : 3}
 								/>
@@ -573,10 +576,10 @@ const FsToolItem = (props) => {
 								<>
 									<TextControl
 										__nextHasNoMarginBottom
-										value={value || ""}
+										value={value || ''}
 										label={the_label}
 										help={help}
-										placeholder={placeholder ? "[" + placeholder + "]" : ""}
+										placeholder={placeholder ? '[' + placeholder + ']' : ''}
 										onChange={onChangeHandler}
 									/>
 								</>
