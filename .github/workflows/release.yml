@@ -81,7 +81,6 @@ jobs:
       - name: 🧹 Prepare for WordPress.org
         run: |
           ZIP_NAME="${{ steps.read_version.outputs.project_name }}.zip"
-          ls -la
           # remove updater and zip again
           if composer show --tree | grep -q "evrpress/wp-updater"; then
               composer remove evrpress/wp-updater
@@ -90,11 +89,6 @@ jobs:
           fi
           #unzip into dist for WordPress Plugin Deploy
           unzip $ZIP_NAME -d dist
-          ls -la
-          cd dist/${{ steps.read_version.outputs.project_name }}
-          ls -la
-          cd vendor
-          ls -la
 
       - name: WordPress Plugin Deploy
         if: ${{ !env.ACT }}
