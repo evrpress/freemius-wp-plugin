@@ -17,6 +17,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+require_once __DIR__ . '/vendor/autoload.php';
+
+
+// Initialize the updater
+class_exists( 'EverPress\WPUpdater' ) && \EverPress\WPUpdater::add(
+	'freemius-button/freemius-button.php',
+	array(
+		'repository' => 'evrpress/freemius-button',
+	)
+);
+
 
 \add_action( 'enqueue_block_assets', __NAMESPACE__ . '\block_script_styles', 1 );
 function block_script_styles() {
