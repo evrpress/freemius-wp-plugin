@@ -7,14 +7,15 @@ namespace EverPress\FreemiusButton;
  * Description:       Freemius Button
  * Requires at least: 6.6
  * Requires PHP:      7.4
- * Version:           0.1.5
+ * Version:           0.1.7
  * Author:            Xaver
+ * Author URI:        https://everpress.dev
+ * License:           GPL-2.0-or-later
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -45,7 +46,7 @@ function block_script_styles() {
 	\wp_enqueue_style( 'freemius-button', $plugin_url . 'build/editor.css', array(), $dependecied['version'] );
 
 	// @TODO: load this via API in the editor.js
-	\wp_add_inline_script( 'freemius-button', 'const freemius_button_schema = ' . json_encode( get_schema() ) . '', true );
+	\wp_add_inline_script( 'freemius-button', 'const freemius_button_schema = ' . wp_json_encode( get_schema() ) . '', true );
 }
 
 
@@ -56,19 +57,16 @@ function render_button( $block_content, $block, $instance ) {
 	if ( ! isset( $block['attrs'] ) ) {
 		return $block_content;
 	}
-	if ( ! isset( $block['attrs']['freemius'] ) ) {
-		return $block_content;
-	}
-	if ( ! $block['attrs']['freemius_enabled'] ) {
+	if ( ! isset( $block['attrs']['freemius_enabled'] ) || $block['attrs']['freemius_enabled'] === false ) {
 		return $block_content;
 	}
 
 	// merge the data from the site, the page and the block
 	$site_data   = \get_option( 'freemius_button', array() );
 	$page_data   = \get_post_meta( get_the_ID(), 'freemius_button', true );
-	$blugin_data = $block['attrs']['freemius'];
+	$blugin_data = isset( $block['attrs']['freemius'] ) ? $block['attrs']['freemius'] : array();
 
-	$data = array_merge( $site_data, $page_data, $blugin_data );
+	$data = array_merge( $site_data, (array) $page_data, $blugin_data );
 
 	/**
 	 * Filter the data that will be passed to the Freemius checkout.
@@ -77,14 +75,13 @@ function render_button( $block_content, $block, $instance ) {
 	 */
 	$data = \apply_filters( 'freemius_button_data', $data );
 
-	$extra = '';
-	// $extra  .= '<pre type="application/json">' . json_encode( $data ) . '</pre>';
-	$extra .= '<script type="application/json" class="freemius-button-data">' . json_encode( $data ) . '</script>';
+	$extra  = '';
+	$extra .= '<script type="application/json" class="freemius-button-data">' . wp_json_encode( $data ) . '</script>';
 
 	$plugin_dir = \plugin_dir_path( __FILE__ );
 	$plugin_url = \plugin_dir_url( __FILE__ );
 
-	\wp_enqueue_script( 'freemius-button-checkout', 'https://checkout.freemius.com/js/v1/', array(), '0.1.0', true );
+	\wp_enqueue_script( 'freemius-button-checkout', 'https://checkout.freemius.com/js/v1/', array(), 'v1', true );
 
 	// load from assets.php
 	$dependecied = include $plugin_dir . 'build/view.asset.php';
@@ -100,7 +97,7 @@ function render_button( $block_content, $block, $instance ) {
 function register_post_meta() {
 
 	\register_post_meta(
-		'', // regisert for all post types
+		'', // registered for all post types
 		'freemius_button',
 		array(
 			'single'            => true,
