@@ -25,19 +25,34 @@ import {
 	ToolbarButton,
 	ToolbarGroup,
 	TabPanel,
-	Tip,
+	FlexBlock,
+	Flex,
 } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
-import { useState, useEffect, useRef } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 import { useEntityProp } from '@wordpress/core-data';
-import { Icon, globe, page, button, handle } from '@wordpress/icons';
+import { Icon, globe, page, button } from '@wordpress/icons';
 
 /**
  * Internal dependencies
  */
 
 import './editor.scss';
-import { Attributes } from './attributes';
+
+const SCOPES = [
+	{
+		name: 'global',
+		title: 'Global',
+	},
+	{
+		name: 'page',
+		title: 'Page',
+	},
+	{
+		name: 'button',
+		title: 'Button',
+	},
+];
 
 const PanelDescription = styled.div`
 	grid-column: span 2;
@@ -65,8 +80,6 @@ const BlockEdit = (props) => {
 		'freemius_button'
 	);
 
-	console.log('Settings', settings);
-	console.log('pageMeta', pageMeta);
 	const schema = freemius_button_schema;
 
 	useEffect(() => {
@@ -114,17 +127,17 @@ const BlockEdit = (props) => {
 		return iframe.contentWindow;
 	};
 
-	// load script in the iframe
+	// load script in the iframe for v3 blocks / v2 blocks fall back to the document
 	useEffect(() => {
 		const iframeDoc = getDocument();
 		const s = iframeDoc.createElement('script');
 		s.type = 'text/javascript';
 		s.src = 'https://checkout.freemius.com/js/v1/';
 		s.onload = () => setFS(getWindow().FS);
-
 		iframeDoc.body.appendChild(s);
 	}, []);
 
+	// handle Auto refresh
 	useEffect(() => {
 		if (!preview) return;
 		if (!live) return;
@@ -171,7 +184,7 @@ const BlockEdit = (props) => {
 		// do not modify the original object
 		const args_copy = { ...args };
 
-		//add class to the body
+		// add class to the body
 		document.body.classList.add('freemius-checkout-preview');
 
 		const iframeDoc = getDocument();
@@ -294,9 +307,62 @@ const BlockEdit = (props) => {
 		);
 	}
 
+	const maybeUpdateSettings = (value) => {
+		try {
+			const newValue = JSON.parse(value);
+			//setTempSettings(JSON.stringify(value, null, 2));
+			setTempSettings(value);
+			setSettingsByScope(scope, newValue);
+			setIsValidJSON(true);
+		} catch (e) {
+			setTempSettings(value);
+			setIsValidJSON(false);
+		}
+	};
+
+	const getSettingsByScope = (scope) => {
+		switch (scope) {
+			case 'global':
+				return settings;
+			case 'page':
+				return pageMeta?.freemius_button;
+			case 'button':
+				return freemius;
+		}
+	};
+
+	const setSettingsByScope = (scope, value) => {
+		switch (scope) {
+			case 'global':
+				setSettings(value);
+				break;
+			case 'page':
+				setPageMeta({ freemius_button: value });
+				break;
+			case 'button':
+				setAttributes({ freemius: value });
+				break;
+		}
+	};
+
+	// get the settings based on the scope and save it in a temp string
+	const [tempSettings, setTempSettings] = useState();
+	const [isValidJSON, setIsValidJSON] = useState();
+	const [showEditor, setShowEditor] = useState(false);
+
+	useEffect(() => {
+		setTempSettings(JSON.stringify(getSettingsByScope(scope), null, 2));
+	}, [scope, settings, pageMeta?.freemius_button, freemius]);
+	useEffect(() => {
+		setIsValidJSON(
+			tempSettings === JSON.stringify(getSettingsByScope(scope), null, 2)
+		);
+	}, [tempSettings]);
+
 	const MyTip = (props) => {
 		const { scope } = props;
 		const { children } = props;
+
 		let text = '';
 		let icon = button;
 		switch (scope) {
@@ -325,21 +391,6 @@ const BlockEdit = (props) => {
 		);
 	};
 
-	const scopes = [
-		{
-			name: 'global',
-			title: 'Global',
-		},
-		{
-			name: 'page',
-			title: 'Page',
-		},
-		{
-			name: 'button',
-			title: 'Button',
-		},
-	];
-
 	return (
 		<InspectorControls>
 			<BlockControls>
@@ -357,18 +408,15 @@ const BlockEdit = (props) => {
 				label={
 					__('Freemius Button', 'freemius-button') +
 					' - (' +
-					scopes.filter((s) => s.name === scope)[0].title +
+					SCOPES.filter((s) => s.name === scope)[0].title +
 					')'
 				}
 			>
 				<PanelDescription>
 					<EnableCheckbox />
-					<CheckboxControl
-						__nextHasNoMarginBottom
-						label={__('Auto Refresh', 'freemius-button')}
-						checked={live}
-						onChange={(val) => setLive(!live)}
-					/>
+				</PanelDescription>
+
+				<Flex style={{ gridColumn: '1 / 3' }}>
 					<Button
 						onClick={() => setPreview(!preview)}
 						icon={'visibility'}
@@ -381,7 +429,18 @@ const BlockEdit = (props) => {
 							? __('Close Preview', 'freemius-button')
 							: __('Preview Checkout', 'freemius-button')}
 					</Button>
-				</PanelDescription>
+					<CheckboxControl
+						__nextHasNoMarginBottom
+						title={__(
+							'Auto reload the checkout if you change settings.',
+							'freemius-button'
+						)}
+						label={__('Live', 'freemius-button')}
+						checked={live}
+						onChange={() => setLive(!live)}
+					/>
+				</Flex>
+
 				<TabPanel
 					className="freemius-button-scopes"
 					activeClass="active-tab"
@@ -389,44 +448,75 @@ const BlockEdit = (props) => {
 					onSelect={(val) => {
 						setScope(val);
 					}}
-					tabs={scopes}
+					tabs={SCOPES}
 				>
 					{(tab) => <MyTip scope={scope} />}
 				</TabPanel>
 
 				<div className="freemius-button-scopes-wrap">
-					{Object.keys(schema).map((key) => {
-						const item = schema[key];
+					<ToolsPanelItem
+						className="freemius-button-scope"
+						hasValue={() => {
+							return showEditor;
+						}}
+						label={__('Editor', 'freemius-button')}
+						onDeselect={() => setShowEditor(!showEditor)}
+						isShownByDefault={false}
+					>
+						<BaseControl
+							__nextHasNoMarginBottom
+							help={__(
+								'You can copy and paste this JSON to save your settings.',
+								'freemius-button'
+							)}
+						>
+							<Flex style={{ gridColumn: '1 / 3' }}>
+								<TextareaControl
+									__nextHasNoMarginBottom
+									value={tempSettings}
+									label={__('Settings Editor', 'freemius-button')}
+									help={!isValidJSON && __('Invalid JSON', 'freemius-button')}
+									onChange={(val) => maybeUpdateSettings(val)}
+									className="code"
+									rows={8}
+								/>
+							</Flex>
+						</BaseControl>
+					</ToolsPanelItem>
 
-						const value = getValueFor(key, scope);
-						const placeholder = getPlaceholderFor(key, scope);
+					{!showEditor &&
+						Object.keys(schema).map((key) => {
+							const item = schema[key];
 
-						const onChangeHandlerHelper = (val) => {
-							if (item.default === val) {
-								val = undefined;
-							}
-							onChangeHandler(scope, key, val);
-						};
+							const value = getValueFor(key, scope);
+							const placeholder = getPlaceholderFor(key, scope);
 
-						return (
-							<FsToolItem
-								key={key}
-								label={item.label || key}
-								options={item.options}
-								id={key}
-								scope={scope}
-								help={item.help}
-								code={item?.code}
-								defaultValue={item.default}
-								isDeprecated={item.isDeprecated}
-								isRequired={item.isRequired}
-								value={value}
-								placeholder={placeholder}
-								type={item.type || 'string'}
-								onChange={onChangeHandlerHelper}
-							/>
-						);
-					})}
+							const onChangeHandlerHelper = (val) => {
+								if (item.default === val) {
+									val = undefined;
+								}
+								onChangeHandler(scope, key, val);
+							};
+
+							return (
+								<FsToolItem
+									key={key}
+									label={item.label || key}
+									options={item.options}
+									id={key}
+									scope={scope}
+									help={item.help}
+									code={item?.code}
+									defaultValue={item.default}
+									isDeprecated={item.isDeprecated}
+									isRequired={item.isRequired}
+									value={value}
+									placeholder={placeholder}
+									type={item.type || 'string'}
+									onChange={onChangeHandlerHelper}
+								/>
+							);
+						})}
 				</div>
 			</ToolsPanel>
 		</InspectorControls>
