@@ -148,9 +148,10 @@ return array(
 			'freemius-button'
 		),
 		'options' => array(
-			'usd' => 'usd',
-			'eur' => 'eur',
-			'gbp' => 'gbp',
+			'auto' => 'auto',
+			'usd'  => 'usd',
+			'eur'  => 'eur',
+			'gbp'  => 'gbp',
 		),
 	),
 	'default_currency'              => array(
