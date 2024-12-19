@@ -143,6 +143,17 @@ function register_my_setting() {
 			),
 		)
 	);
+
+	\register_setting(
+		'options',
+		'freemius_checkout_css',
+		array(
+			'single'       => true,
+			'label'        => 'Freemius Button',
+			'type'         => 'string',
+			'show_in_rest' => true,
+		)
+	);
 }
 
 function sanitize_schema( $settings ) {
@@ -162,4 +173,28 @@ function get_schema() {
 	$schema     = include $plugin_dir . 'includes/schema.php';
 
 	return $schema;
+}
+
+
+// add endpoint for dynmaic CSS
+\add_action( 'rest_api_init', __NAMESPACE__ . '\register_rest_route' );
+function register_rest_route() {
+
+	\register_rest_route(
+		'freemius-button/v1',
+		'/checkout.css',
+		array(
+			'methods'  => 'GET',
+			'callback' => __NAMESPACE__ . '\get_css',
+		)
+	);
+}
+
+function get_css() {
+
+	// $plugin_dir = \plugin_dir_path( __FILE__ );
+	$css = get_option( 'freemius_checkout_css' );
+	\header( 'Content-Type: text/css' );
+	echo $css;
+	exit;
 }

@@ -65,8 +65,8 @@ const BlockEdit = (props) => {
 		'freemius_button'
 	);
 
-	console.log('Settings', settings);
-	console.log('pageMeta', pageMeta);
+	const [css, setCSS] = useEntityProp('root', 'site', 'freemius_checkout_css');
+
 	const schema = freemius_button_schema;
 
 	useEffect(() => {
@@ -381,6 +381,20 @@ const BlockEdit = (props) => {
 							? __('Close Preview', 'freemius-button')
 							: __('Preview Checkout', 'freemius-button')}
 					</Button>
+				</PanelDescription>
+				<PanelDescription>
+					<TextareaControl
+						__nextHasNoMarginBottom
+						value={css || ''}
+						label={'css'}
+						help={__('Global CSS settings for the Checkout', 'freemius-button')}
+						onChange={(val) => setCSS(val)}
+						rows={css ? 10 : 3}
+					/>
+					<p>{'https://example.com/wp-json/freemius-button/v1/checkout.css'}</p>
+					<ExternalLink href="https://dashboard.freemius.com/#!/live/stores/1/plugins/12184/plans/">
+						Visit Plans
+					</ExternalLink>
 				</PanelDescription>
 				<TabPanel
 					className="freemius-button-scopes"
