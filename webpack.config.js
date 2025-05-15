@@ -1,18 +1,18 @@
-const defaultConfig = require("@wordpress/scripts/config/webpack.config");
+const defaultConfig = require('@wordpress/scripts/config/webpack.config');
 
 // Import the helper to find and generate the entry points in the src directory
-const { getWebpackEntryPoints } = require("@wordpress/scripts/utils/config");
+const { getWebpackEntryPoints } = require('@wordpress/scripts/utils/config');
 
-const RemoveEmptyScriptsPlugin = require("webpack-remove-empty-scripts");
-const SoundsPlugin = require("sounds-webpack-plugin");
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
+const SoundsPlugin = require('sounds-webpack-plugin');
 
-const path = require("path");
-const cp = require("child_process");
-const { sprintf } = require("@wordpress/i18n");
+const path = require('path');
+const cp = require('child_process');
+const { sprintf } = require('@wordpress/i18n');
 
 const soundPluginOptions = {
 	sounds: {
-		warning: "/System/Library/Sounds/Basso.aiff",
+		warning: '/System/Library/Sounds/Basso.aiff',
 	},
 	notifications: {
 		done(stats) {
@@ -25,28 +25,28 @@ const soundPluginOptions = {
 				return;
 			}
 
-			this.play("warning");
+			this.play('warning');
 
 			message = message
-				.join("")
-				.split("\n")
+				.join('')
+				.split('\n')
 				.slice(-1)
-				.join("")
-				.replace(path.resolve(__dirname), "");
+				.join('')
+				.replace(path.resolve(__dirname), '');
 
 			message = sprintf(
 				'display notification "%s" with title "Error while building" subtitle "More text"',
 				message
 			);
 
-			cp.spawnSync("osascript", ["-e", message], { encoding: "utf8" });
+			cp.spawnSync('osascript', ['-e', message], { encoding: 'utf8' });
 		},
 	},
 };
 
 const customEntries = {
-	editor: "./src/editor.js",
-	view: "./src/view.js",
+	'freemius-button/editor': './src/freemius-button/editor.js',
+	'freemius-button/view': './src/freemius-button/view.js',
 };
 
 module.exports = {
