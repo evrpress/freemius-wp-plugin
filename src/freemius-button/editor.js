@@ -83,7 +83,7 @@ const BlockEdit = (props) => {
 	const EnableCheckbox = () => (
 		<CheckboxControl
 			__nextHasNoMarginBottom
-			label={__('Freemius Checkout.', 'freemius-button')}
+			label={__('Freemius Checkout.', 'freemius')}
 			checked={freemius_enabled}
 			onChange={(val) => setAttributes({ freemius_enabled: val })}
 		/>
@@ -277,7 +277,7 @@ const BlockEdit = (props) => {
 	if (!freemius_enabled) {
 		return (
 			<InspectorControls>
-				<PanelBody title={__('Freemius Button', 'freemius-button')}>
+				<PanelBody title={__('Freemius Button', 'freemius')}>
 					<EnableCheckbox />
 				</PanelBody>
 			</InspectorControls>
@@ -291,15 +291,15 @@ const BlockEdit = (props) => {
 		let icon = button;
 		switch (scope) {
 			case 'global':
-				text = __('Changes will affect the whole site.', 'freemius-button');
+				text = __('Changes will affect the whole site.', 'freemius');
 				icon = globe;
 				break;
 			case 'page':
-				text = __('Changes will affect the whole page.', 'freemius-button');
+				text = __('Changes will affect the whole page.', 'freemius');
 				icon = page;
 				break;
 			case 'button':
-				text = __('Changes will affect only this button.', 'freemius-button');
+				text = __('Changes will affect only this button.', 'freemius');
 				icon = button;
 				break;
 		}
@@ -335,7 +335,7 @@ const BlockEdit = (props) => {
 			<BlockControls>
 				<ToolbarGroup>
 					<ToolbarButton
-						label={__('Preview Checkout', 'freemius-button')}
+						label={__('Preview Checkout', 'freemius')}
 						icon={'visibility'}
 						onClick={() => setPreview(true)}
 					/>
@@ -345,7 +345,7 @@ const BlockEdit = (props) => {
 				className={'freemius-button-scope-' + scope}
 				resetAll={() => resetAll(scope)}
 				label={
-					__('Freemius Button', 'freemius-button') +
+					__('Freemius Button', 'freemius') +
 					' - (' +
 					scopes.filter((s) => s.name === scope)[0].title +
 					')'
@@ -355,7 +355,7 @@ const BlockEdit = (props) => {
 					<EnableCheckbox />
 					<CheckboxControl
 						__nextHasNoMarginBottom
-						label={__('Auto Refresh', 'freemius-button')}
+						label={__('Auto Refresh', 'freemius')}
 						checked={live}
 						onChange={(val) => setLive(!live)}
 					/>
@@ -368,8 +368,8 @@ const BlockEdit = (props) => {
 						variant="secondary"
 					>
 						{preview && !isLoading
-							? __('Close Preview', 'freemius-button')
-							: __('Preview Checkout', 'freemius-button')}
+							? __('Close Preview', 'freemius')
+							: __('Preview Checkout', 'freemius')}
 					</Button>
 				</PanelDescription>
 				<TabPanel
