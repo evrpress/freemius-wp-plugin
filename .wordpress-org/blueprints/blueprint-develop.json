@@ -6,14 +6,14 @@
 	},
 	"login": true,
 	"siteOptions": {
-		"blogname": "Freemius Button"
+		"blogname": "Freemius"
 	},
 	"steps": [
 		{
 			"step": "installPlugin",
 			"pluginData": {
 				"resource": "url",
-				"url": "https://raw.githubusercontent.com/evrpress/freemius-button/refs/heads/develop/freemius-button.zip"
+				"url": "https://raw.githubusercontent.com/evrpress/freemius-wp-plugin/refs/heads/develop/freemius.zip"
 			},
 			"options": {
 				"activate": true
@@ -23,7 +23,7 @@
 			"step": "importWxr",
 			"file": {
 				"resource": "url",
-				"url": "https://raw.githubusercontent.com/evrpress/freemius-button/refs/heads/develop/.wordpress-org/blueprints/content.xml"
+				"url": "https://raw.githubusercontent.com/evrpress/freemius-wp-plugin/refs/heads/develop/.wordpress-org/blueprints/content.xml"
 			}
 		}
 	]

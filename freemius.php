@@ -5,8 +5,8 @@ namespace EverPress\FreemiusButton;
 use EverPress\WPUpdater;
 
 /**
- * Plugin Name:       Freemius Button
- * Description:       Freemius Button
+ * Plugin Name:       Freemius
+ * Description:       Freemius Toolkit
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Version:           0.1.8
@@ -26,7 +26,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 class_exists( 'EverPress\WPUpdater' ) && WPUpdater::add(
 	'freemius-button/freemius-button.php',
 	array(
-		'repository' => 'evrpress/freemius-button',
+		'repository' => 'evrpress/freemius-wp-plugin',
 	)
 );
 
