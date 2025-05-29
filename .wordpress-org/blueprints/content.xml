@@ -49,7 +49,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"freemius_enabled":true,"freemius":{}} -->
+<div class="wp-block-buttons"><!-- wp:button {"freemius_enabled":true} -->
 <div class="wp-block-button has-freemius-checkout"><a class="wp-block-button__link wp-element-button">Buy Mailster Now</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
@@ -82,7 +82,7 @@
 
 <!-- wp:list -->
 <ul class="wp-block-list"><!-- wp:list-item -->
-<li>plugin_id</li>
+<li>product_id</li>
 <!-- /wp:list-item -->
 
 <!-- wp:list-item -->
@@ -188,7 +188,7 @@
 		</wp:postmeta>
 		<wp:postmeta>
 		<wp:meta_key><![CDATA[freemius_button]]></wp:meta_key>
-		<wp:meta_value><![CDATA[a:2:{s:10:"public_key";s:32:"pk_1efa30140fc34f21e5b89959bb877";s:9:"plugin_id";i:12184;}]]></wp:meta_value>
+		<wp:meta_value><![CDATA[a:2:{s:10:"public_key";s:32:"pk_1efa30140fc34f21e5b89959bb877";s:9:"product_id";i:12184;}]]></wp:meta_value>
 		</wp:postmeta>							</item>
 				</channel>
 </rss>
