@@ -3,7 +3,6 @@
 ![Freemius](https://github.com/evrpress/freemius-wp-plugin/blob/main/.wordpress-org/banner.jpg)
 
 [Playground](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/evrpress/freemius-wp-plugin/refs/heads/main/.wordpress-org/blueprints/blueprint.json)
-[Playground - develop](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/evrpress/freemius-wp-plugin/refs/heads/develop/.wordpress-org/blueprints/blueprint-develop.json)
 
 Contributors:      everpress  
 Tags:              freemius  
