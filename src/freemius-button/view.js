@@ -17,9 +17,9 @@ domReady(() => {
 
 	Array.prototype.forEach.call(buttons, (button, i) => {
 		const freemius = JSON.parse(button.textContent);
-		const { plugin_id, public_key } = freemius;
-		if (!plugin_id || !public_key) {
-			console.error('Please fill in plugin_id and public_key');
+		const { product_id, public_key } = freemius;
+		if (!product_id || !public_key) {
+			console.error('Please fill in product_id and public_key');
 			return;
 		}
 		const button_el = button.nextElementSibling.querySelector('a');
@@ -28,7 +28,7 @@ domReady(() => {
 		const freemius_copy = { ...freemius };
 
 		const handler = new FS.Checkout({
-			plugin_id: plugin_id,
+			product_id: product_id,
 			public_key: public_key,
 		});
 

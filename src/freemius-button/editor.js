@@ -28,7 +28,6 @@ import { Icon, globe, page, button } from '@wordpress/icons';
  * Internal dependencies
  */
 import './editor.scss';
-import { Attributes } from './attributes';
 import FsToolItem from './fs-tool-item';
 
 const PanelDescription = styled.div`
@@ -83,7 +82,7 @@ const BlockEdit = (props) => {
 	const EnableCheckbox = () => (
 		<CheckboxControl
 			__nextHasNoMarginBottom
-			label={__('Freemius Checkout.', 'freemius')}
+			label={__('Freemius Checkout', 'freemius')}
 			checked={freemius_enabled}
 			onChange={(val) => setAttributes({ freemius_enabled: val })}
 		/>
@@ -152,9 +151,10 @@ const BlockEdit = (props) => {
 			...freemius,
 		};
 
-		const { plugin_id, public_key } = args;
-		if (!plugin_id || !public_key) {
-			alert('Please fill in plugin_id and public_key');
+		const { product_id, public_key } = args;
+		if (!product_id || !public_key) {
+			setLoading(false);
+			alert(__('Please fill in product_id and public_key', 'freemius'));
 			return;
 		}
 
@@ -164,10 +164,8 @@ const BlockEdit = (props) => {
 		//add class to the body
 		document.body.classList.add('freemius-checkout-preview');
 
-		const iframeDoc = getDocument();
-
 		const handler = new FS.Checkout({
-			plugin_id: plugin_id,
+			product_id: product_id,
 			public_key: public_key,
 		});
 
@@ -210,7 +208,12 @@ const BlockEdit = (props) => {
 		handler.checkoutPopup.checkoutIFrame.iFrame.onload = () => {
 			if (popup_success) return;
 
-			alert('Freemius Checkout is not available with your current settings!');
+			alert(
+				__(
+					'Freemius Checkout is not available with your current settings!',
+					'freemius'
+				)
+			);
 
 			setPreview(false);
 		};
@@ -284,9 +287,8 @@ const BlockEdit = (props) => {
 		);
 	}
 
-	const MyTip = (props) => {
+	const ScopeInfo = (props) => {
 		const { scope } = props;
-		const { children } = props;
 		let text = '';
 		let icon = button;
 		switch (scope) {
@@ -318,15 +320,15 @@ const BlockEdit = (props) => {
 	const scopes = [
 		{
 			name: 'global',
-			title: 'Global',
+			title: __('Global', 'freemius'),
 		},
 		{
 			name: 'page',
-			title: 'Page',
+			title: __('Page', 'freemius'),
 		},
 		{
 			name: 'button',
-			title: 'Button',
+			title: __('Button', 'freemius'),
 		},
 	];
 
@@ -381,7 +383,7 @@ const BlockEdit = (props) => {
 					}}
 					tabs={scopes}
 				>
-					{(tab) => <MyTip scope={scope} />}
+					{(tab) => <ScopeInfo scope={scope} />}
 				</TabPanel>
 
 				<div className="freemius-button-scopes-wrap">
@@ -424,7 +426,7 @@ const BlockEdit = (props) => {
 };
 
 const generateClassName = (attributes) => {
-	const { freemius_enabled, freemius } = attributes;
+	const { freemius_enabled } = attributes;
 	if (!freemius_enabled) return '';
 	return 'has-freemius-checkout';
 };
