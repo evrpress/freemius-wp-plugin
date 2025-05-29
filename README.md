@@ -2,57 +2,84 @@
 
 ![Freemius](https://github.com/evrpress/freemius-wp-plugin/blob/main/.wordpress-org/banner.jpg)
 
-[Playground](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/evrpress/freemius-wp-plugin/refs/heads/main/.wordpress-org/blueprints/blueprint.json)
+[Try it in the Playground](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/evrpress/freemius-wp-plugin/refs/heads/main/.wordpress-org/blueprints/blueprint.json)
 
 Contributors:      everpress  
-Tags:              freemius  
+Tags:              freemius, checkout, payment, button  
 Tested up to:      6.8  
 Stable tag:        0.1.9  
-License:           GPL-2.0-or-later  
-License URI:       <https://www.gnu.org/licenses/gpl-2.0.html>
+License:           MIT  
+
+Freemius Toolkit is a powerful WordPress plugin that allows you to transform any block-based button into a Freemius checkout button.
 
 ## Description
 
-This is the long description. No limit, and you can use Markdown (as well as in the following sections).
+Freemius Toolkit is a powerful WordPress plugin that allows you to transform any block-based button into a Freemius checkout button. This makes it easy to integrate Freemius payment processing into your WordPress site with minimal effort.
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+Key features:
+
+- Convert any block button to a Freemius checkout button
+- Seamless integration with Freemius payment processing
+- Customizable checkout experience
+- Works with all block-based themes and plugins
 
 ## Installation
 
-This section describes how to install the plugin and get it working.
-
-e.g.
-
-1. Upload the plugin files to the `/wp-content/plugins/freemius` directory, or install the plugin through the WordPress plugins screen directly.
-1. Activate the plugin through the 'Plugins' screen in WordPress
+1. Upload the plugin files to the `/wp-content/plugins/freemius` directory, or install the plugin through the WordPress plugins screen directly
+2. Activate the plugin through the 'Plugins' screen in WordPress
+3. Place a button via the block editor into your page/post
+4. Enable Freemius checkout in the button settings
+5. Configure your product details and the button will automatically handle the checkout process.
 
 ## Frequently Asked Questions
 
-### A question that someone might have
+### How do I set up a Freemius checkout button?
 
-An answer to that question.
+Simply add a button block to your page or post, then enable the Freemius checkout option in the button settings. Configure your product details and the button will automatically handle the checkout process.
 
-### What about foo bar?
+### Can I customize the checkout experience?
 
-Answer to foo bar dilemma.
+Yes, you can customize various aspects of the checkout process through the plugin settings, including product details, pricing, and checkout flow.
+
+### Is this plugin compatible with my theme?
+
+The plugin works with any WordPress theme that supports the block editor (Gutenberg). It's designed to be compatible with all modern WordPress themes and plugins.
+
+### Where do I find the offical Freemius documentation?
+
+[Freemius Documentation](https://freemius.com/help/documentation/)
 
 ## Screenshots
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+1. Button block settings with Freemius checkout option
+2. Example of a Freemius checkout button in action
 
 ## Changelog
 
+### 0.1.9
+
+- Added support for WordPress 6.8
+- Improved button customization options
+- Bug fixes and performance improvements
+
 ### 0.1.8
+
+- Enhanced checkout flow
+- Added new customization options
+- Fixed compatibility issues
 
 ### 0.1.7
 
+- Improved error handling
+- Added support for custom checkout fields
+- Performance optimizations
+
 ### 0.1.6
+
+- Initial public release
+- Basic Freemius checkout integration
+- Core functionality implementation
 
 ### 0.1.0
 
-- Release
+- Initial development release

@@ -11,8 +11,8 @@ use EverPress\WPUpdater;
  * Requires PHP:      7.4
  * Version:           0.1.9
  * Author:            Xaver
- * Author URI:        https://everpress.dev
- * License:           GPL-2.0-or-later
+ * Author URI:        https://freemius.com
+ * License:           MIT
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
