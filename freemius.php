@@ -1,15 +1,15 @@
 <?php
 
-namespace EverPress\FreemiusButton;
+namespace Freemius;
 
 use EverPress\WPUpdater;
 
 /**
- * Plugin Name:       Freemius Button
- * Description:       Freemius Button
+ * Plugin Name:       Freemius
+ * Description:       Freemius Toolkit
  * Requires at least: 6.6
  * Requires PHP:      7.4
- * Version:           0.1.8
+ * Version:           0.1.9
  * Author:            Xaver
  * Author URI:        https://everpress.dev
  * License:           GPL-2.0-or-later
@@ -26,7 +26,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 class_exists( 'EverPress\WPUpdater' ) && WPUpdater::add(
 	'freemius-button/freemius-button.php',
 	array(
-		'repository' => 'evrpress/freemius-button',
+		'repository' => 'evrpress/freemius-wp-plugin',
 	)
 );
 
@@ -42,12 +42,13 @@ function block_script_styles() {
 	$plugin_url = \plugin_dir_url( __FILE__ );
 
 	// load from assets.php
-	$dependecied = include $plugin_dir . 'build/editor.asset.php';
+	$freemius_dependencies = include $plugin_dir . 'build/freemius-button/editor.asset.php';
 
-	\wp_enqueue_script( 'freemius-button', $plugin_url . 'build/editor.js', $dependecied['dependencies'], $dependecied['version'], true );
-	\wp_enqueue_style( 'freemius-button', $plugin_url . 'build/editor.css', array(), $dependecied['version'] );
+	// Freemius Button Block
+	\wp_enqueue_script( 'freemius-button', $plugin_url . 'build/freemius-button/editor.js', $freemius_dependencies['dependencies'], $freemius_dependencies['version'], true );
+	\wp_enqueue_style( 'freemius-button', $plugin_url . 'build/freemius-button/editor.css', array(), $freemius_dependencies['version'] );
 
-	// @TODO: load this via API in the editor.js
+	// TODO: load this via API in the editor.js
 	\wp_add_inline_script( 'freemius-button', 'const freemius_button_schema = ' . wp_json_encode( get_schema() ) . '', true );
 }
 
@@ -66,9 +67,9 @@ function render_button( $block_content, $block, $instance ) {
 	// merge the data from the site, the page and the block
 	$site_data   = \get_option( 'freemius_button', array() );
 	$page_data   = \get_post_meta( get_the_ID(), 'freemius_button', true );
-	$blugin_data = isset( $block['attrs']['freemius'] ) ? $block['attrs']['freemius'] : array();
+	$plugin_data = isset( $block['attrs']['freemius'] ) ? $block['attrs']['freemius'] : array();
 
-	$data = array_merge( $site_data, (array) $page_data, $blugin_data );
+	$data = array_merge( $site_data, (array) $page_data, $plugin_data );
 
 	/**
 	 * Filter the data that will be passed to the Freemius checkout.
@@ -86,9 +87,9 @@ function render_button( $block_content, $block, $instance ) {
 	\wp_enqueue_script( 'freemius-button-checkout', 'https://checkout.freemius.com/js/v1/', array(), 'v1', true );
 
 	// load from assets.php
-	$dependecied = include $plugin_dir . 'build/view.asset.php';
-	\wp_enqueue_script( 'freemius-button-frontend', $plugin_url . 'build/view.js', $dependecied['dependencies'], $dependecied['version'], true );
-	\wp_enqueue_style( 'freemius-button-frontend', $plugin_url . 'build/view.css', array(), $dependecied['version'] );
+	$dependecied = include $plugin_dir . 'build/freemius-button/view.asset.php';
+	\wp_enqueue_script( 'freemius-button-frontend', $plugin_url . 'build/freemius-button/view.js', $dependecied['dependencies'], $dependecied['version'], true );
+	\wp_enqueue_style( 'freemius-button-frontend', $plugin_url . 'build/freemius-button/view.css', array(), $dependecied['version'] );
 
 	return $extra . $block_content;
 }
@@ -147,6 +148,7 @@ function register_my_setting() {
 	);
 }
 
+
 function sanitize_schema( $settings ) {
 
 	foreach ( $settings as $key => $value ) {
@@ -164,4 +166,25 @@ function get_schema() {
 	$schema     = include $plugin_dir . 'includes/schema.php';
 
 	return $schema;
+}
+
+\add_filter( 'render_block_core/group', __NAMESPACE__ . '\render_group', 10, 3 );
+function render_group( $block_content, $block, $instance ) {
+	if ( ! isset( $block['attrs']['testEnabled'] ) || ! $block['attrs']['testEnabled'] ) {
+		return $block_content;
+	}
+
+	$test_text = isset( $block['attrs']['testText'] ) ? $block['attrs']['testText'] : '';
+
+	// Add data attributes for styling
+	$block_content = str_replace(
+		'class="wp-block-group',
+		sprintf(
+			'class="wp-block-group" data-test-enabled="true" data-test-text="%s"',
+			esc_attr( $test_text )
+		),
+		$block_content
+	);
+
+	return $block_content;
 }

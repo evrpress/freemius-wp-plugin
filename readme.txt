@@ -1,4 +1,4 @@
-=== Freemius Button ===
+=== Freemius ===
 Contributors:      everpress  
 Tags:              freemius  
 Tested up to:      6.7  

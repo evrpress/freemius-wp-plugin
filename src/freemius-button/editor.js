@@ -11,33 +11,25 @@ import { registerBlockExtension } from '@10up/block-components';
 
 import { InspectorControls, BlockControls } from '@wordpress/block-editor';
 import {
-	BaseControl,
-	SelectControl,
-	__experimentalToolsPanelItem as ToolsPanelItem,
 	__experimentalToolsPanel as ToolsPanel,
-	__experimentalNumberControl as NumberControl,
-	TextControl,
 	CheckboxControl,
 	PanelBody,
-	ExternalLink,
 	Button,
-	TextareaControl,
 	ToolbarButton,
 	ToolbarGroup,
 	TabPanel,
-	Tip,
 } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
-import { useState, useEffect, useRef } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 import { useEntityProp } from '@wordpress/core-data';
-import { Icon, globe, page, button, handle } from '@wordpress/icons';
+import { Icon, globe, page, button } from '@wordpress/icons';
 
 /**
  * Internal dependencies
  */
-
 import './editor.scss';
 import { Attributes } from './attributes';
+import FsToolItem from './fs-tool-item';
 
 const PanelDescription = styled.div`
 	grid-column: span 2;
@@ -65,8 +57,6 @@ const BlockEdit = (props) => {
 		'freemius_button'
 	);
 
-	console.log('Settings', settings);
-	console.log('pageMeta', pageMeta);
 	const schema = freemius_button_schema;
 
 	useEffect(() => {
@@ -435,9 +425,7 @@ const BlockEdit = (props) => {
 
 const generateClassName = (attributes) => {
 	const { freemius_enabled, freemius } = attributes;
-
 	if (!freemius_enabled) return '';
-
 	return 'has-freemius-checkout';
 };
 
@@ -456,137 +444,3 @@ registerBlockExtension(['core/button'], {
 	inlineStyleGenerator: () => null,
 	Edit: BlockEdit,
 });
-
-const FsToolItem = (props) => {
-	const {
-		label,
-		id,
-		help,
-		type,
-		options,
-		link,
-		isDeprecated,
-		isRequired,
-		placeholder,
-		value,
-		code,
-		onChange,
-		defaultValue,
-	} = props;
-
-	const overwrite = '';
-	let the_label = label;
-	const the_link =
-		link ||
-		'https://freemius.com/help/documentation/selling-with-freemius/freemius-checkout-buy-button/#' +
-			id;
-	const inherited = !!placeholder && value == undefined;
-	let the_type = type;
-	if (options) {
-		the_type = 'array';
-	} else if (code) {
-		the_type = 'code';
-	}
-
-	if (inherited) {
-		the_label += ' (inherited)';
-	} else if (isRequired) {
-		the_label += ' (required)';
-	}
-	if (isDeprecated) {
-		the_label += ' (deprecated)';
-	}
-
-	const onChangeHandler = (val) => {
-		if (onChange) {
-			onChange(val);
-		}
-	};
-
-	return (
-		<ToolsPanelItem
-			className="freemius-button-scope"
-			hasValue={() => {
-				return value != undefined || inherited;
-			}}
-			label={label}
-			onDeselect={() => onChangeHandler(undefined)}
-			isShownByDefault={isRequired}
-		>
-			<BaseControl __nextHasNoMarginBottom help={overwrite}>
-				<ExternalLink className="freemius-link" href={the_link} />
-				{(() => {
-					switch (the_type) {
-						case 'boolean':
-							return (
-								<CheckboxControl
-									__nextHasNoMarginBottom
-									checked={value != undefined ? value : defaultValue}
-									label={the_label}
-									help={help}
-									indeterminate={!!placeholder && value == undefined}
-									onChange={(val) => {
-										onChangeHandler(val);
-									}}
-								/>
-							);
-
-						case 'integer':
-						case 'number':
-							return (
-								<NumberControl
-									value={value || ''}
-									label={the_label}
-									help={help}
-									spinControls="none"
-									min={0}
-									placeholder={placeholder ? '[' + placeholder + ']' : ''}
-									onChange={onChangeHandler}
-								/>
-							);
-
-						case 'array':
-							return (
-								<SelectControl
-									__nextHasNoMarginBottom
-									value={value}
-									label={the_label}
-									help={help}
-									onChange={onChangeHandler}
-									options={Object.keys(options).map((key) => {
-										const label = options[key];
-										return { label: label, value: key };
-									})}
-								/>
-							);
-						case 'code':
-							return (
-								<TextareaControl
-									__nextHasNoMarginBottom
-									value={value || ''}
-									label={the_label}
-									help={help}
-									placeholder={placeholder ? '[' + placeholder + ']' : ''}
-									onChange={onChangeHandler}
-									rows={value ? 10 : 3}
-								/>
-							);
-						default:
-							return (
-								<>
-									<TextControl
-										__nextHasNoMarginBottom
-										value={value || ''}
-										label={the_label}
-										help={help}
-										placeholder={placeholder ? '[' + placeholder + ']' : ''}
-										onChange={onChangeHandler}
-									/>
-								</>
-							);
-					}
-				})()}
-			</BaseControl>
-		</ToolsPanelItem>
-	);
-};
