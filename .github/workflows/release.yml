@@ -1,17 +1,17 @@
 ---
-name: "Create Release"
+name: 'Create Release'
 
 on:
   workflow_dispatch:
   push:
     tags:
-      - "*"
+      - '*'
 
 permissions: write-all
 jobs:
   create-release:
-    name: "Create Release"
-    runs-on: "ubuntu-latest"
+    name: 'Create Release'
+    runs-on: 'ubuntu-22.04'
 
     outputs:
       version: ${{ steps.read_version.outputs.version }}
@@ -39,6 +39,12 @@ jobs:
           [ -f "package.json" ] && npm install --no-fund --silent || echo "No package.json file found"
           [ -f "composer.json" ] && composer install --no-dev --quiet || echo "No composer.json file found"
 
+      - name: 🖼️ Install imagemagick
+        if: ${{ true }}
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y imagemagick
+
       - name: 📚 Convert Readme.md to WordPress Readme
         uses: everpress-co/action-md2wp@main
 
@@ -47,19 +53,22 @@ jobs:
           npm run build --no-dev
 
       - name: 🏗️ Build assets
+        if: ${{ hashFiles('.wordpress-org/**') != '' }}
         run: |
-          mkdir -p dist/assets
           if [ -f .wordpress-org/banner.png ]; then
+            mkdir -p dist/assets
             convert -resize 1544x500 .wordpress-org/banner.png dist/assets/banner-1544x500.png
             convert -resize 772x250 .wordpress-org/banner.png dist/assets/banner-772x250.png
           fi
           if [ -f .wordpress-org/icon.png ]; then
+            mkdir -p dist/assets
             convert -resize 256x256 .wordpress-org/icon.png dist/assets/icon-256x256.png
             convert -resize 128x128 .wordpress-org/icon.png dist/assets/icon-128x128.png
           fi
 
       - name: 🧹 Cleanup
         run: |
+          echo "Cleanup"
           rm -f README.md
 
       - name: 🗜️ Zip the contents of the dist directory with project name and version
@@ -68,30 +77,20 @@ jobs:
           ZIP_NAME="${{ steps.read_version.outputs.project_name }}.zip"
           npm run plugin-zip
           echo "zip_name=$ZIP_NAME" >> $GITHUB_OUTPUT
+          #unzip into dist for WordPress Plugin Deploy
+          unzip $ZIP_NAME -d dist
 
       - name: 📦 Create Release
         if: ${{ !env.ACT }}
-        uses: "marvinpinto/action-automatic-releases@v1.2.1"
+        uses: 'marvinpinto/action-automatic-releases@v1.2.1'
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          repo_token: '${{ secrets.GITHUB_TOKEN }}'
           prerelease: false
           files: |
             ${{ steps.read_version.outputs.project_name }}.zip
 
-      - name: 🧹 Prepare for WordPress.org
-        run: |
-          ZIP_NAME="${{ steps.read_version.outputs.project_name }}.zip"
-          # remove updater and zip again
-          if composer show --tree | grep -q "evrpress/wp-updater"; then
-              composer remove evrpress/wp-updater
-              rm -f $ZIP_NAME
-              npm run plugin-zip
-          fi
-          #unzip into dist for WordPress Plugin Deploy
-          unzip $ZIP_NAME -d dist
-
       - name: WordPress Plugin Deploy
-        if: ${{ !env.ACT }}
+        if: ${{ false && !env.ACT && hashFiles('.wordpress-org/**') != '' }}
         uses: 10up/action-wordpress-plugin-deploy@stable
         with:
           generate-zip: false
