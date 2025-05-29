@@ -1,6 +1,6 @@
 <?php
 
-namespace EverPress\FreemiusButton;
+namespace Freemius;
 
 use EverPress\WPUpdater;
 
@@ -9,7 +9,7 @@ use EverPress\WPUpdater;
  * Description:       Freemius Toolkit
  * Requires at least: 6.6
  * Requires PHP:      7.4
- * Version:           0.1.8
+ * Version:           0.1.9
  * Author:            Xaver
  * Author URI:        https://everpress.dev
  * License:           GPL-2.0-or-later
