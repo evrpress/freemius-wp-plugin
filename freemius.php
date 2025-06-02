@@ -69,7 +69,7 @@ function render_button( $block_content, $block, $instance ) {
 	$page_data   = \get_post_meta( get_the_ID(), 'freemius_button', true );
 	$plugin_data = isset( $block['attrs']['freemius'] ) ? $block['attrs']['freemius'] : array();
 
-	$data = array_merge( $site_data, (array) $page_data, $plugin_data );
+	$data = array_merge( (array) $site_data, (array) $page_data, (array) $plugin_data );
 
 	/**
 	 * Filter the data that will be passed to the Freemius checkout.
