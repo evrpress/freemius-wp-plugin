@@ -9,7 +9,7 @@ use EverPress\WPUpdater;
  * Description:       Freemius Toolkit
  * Requires at least: 6.6
  * Requires PHP:      7.4
- * Version:           0.1.9
+ * Version:           0.2.0
  * Author:            Xaver
  * Author URI:        https://freemius.com
  * License:           MIT
@@ -24,7 +24,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 // Initialize the updater
 class_exists( 'EverPress\WPUpdater' ) && WPUpdater::add(
-	'freemius-button/freemius-button.php',
+	'freemius/freemius.php',
 	array(
 		'repository' => 'evrpress/freemius-wp-plugin',
 	)
