@@ -45,12 +45,12 @@ const FsToolItem = (props) => {
 	}
 
 	if (inherited) {
-		the_label += ' (inherited)';
+		the_label += ' (' + __('inherited', 'freemius') + ')';
 	} else if (isRequired) {
-		the_label += ' (required)';
+		the_label += ' (' + __('required', 'freemius') + ')';
 	}
 	if (isDeprecated) {
-		the_label += ' (deprecated)';
+		the_label += ' (' + __('deprecated', 'freemius') + ')';
 	}
 
 	const onChangeHandler = (val) => {
@@ -91,6 +91,8 @@ const FsToolItem = (props) => {
 						case 'number':
 							return (
 								<NumberControl
+									__nextHasNoMarginBottom
+									__next40pxDefaultSize
 									value={value || ''}
 									label={the_label}
 									help={help}
@@ -105,6 +107,7 @@ const FsToolItem = (props) => {
 							return (
 								<SelectControl
 									__nextHasNoMarginBottom
+									__next40pxDefaultSize
 									value={value}
 									label={the_label}
 									help={help}
@@ -119,6 +122,7 @@ const FsToolItem = (props) => {
 							return (
 								<TextareaControl
 									__nextHasNoMarginBottom
+									__next40pxDefaultSize
 									value={value || ''}
 									label={the_label}
 									help={help}
@@ -129,16 +133,15 @@ const FsToolItem = (props) => {
 							);
 						default:
 							return (
-								<>
-									<TextControl
-										__nextHasNoMarginBottom
-										value={value || ''}
-										label={the_label}
-										help={help}
-										placeholder={placeholder ? '[' + placeholder + ']' : ''}
-										onChange={onChangeHandler}
-									/>
-								</>
+								<TextControl
+									__nextHasNoMarginBottom
+									__next40pxDefaultSize
+									value={value || ''}
+									label={the_label}
+									help={help}
+									placeholder={placeholder ? '[' + placeholder + ']' : ''}
+									onChange={onChangeHandler}
+								/>
 							);
 					}
 				})()}

@@ -1,9 +1,8 @@
 {
 	"name": "freemius",
-	"version": "0.1.9",
+	"version": "0.2.0",
 	"author": "Xaver",
 	"license": "GPL-2.0-or-later",
-	"main": "build/index.js",
 	"scripts": {
 		"build": "wp-scripts build",
 		"format": "wp-scripts format",

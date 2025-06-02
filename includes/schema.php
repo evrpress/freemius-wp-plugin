@@ -1,19 +1,26 @@
 <?php
 
-namespace EverPress\FreemiusButton;
+namespace Freemius;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 return array(
-	'plugin_id'                     => array(
-		'label'            => __( 'Plugin ID', 'freemius' ),
+	'product_id'                    => array(
+		'label'            => __( 'Product ID', 'freemius' ),
 		'type'             => 'integer',
 		'default'          => '',
 		'help'             => __( 'Required product ID (whether it\'s a plugin, theme, add-on, bundle, or SaaS).', 'freemius' ),
 		'isRequired'       => true,
 		'isShownByDefault' => true,
+	),
+	'plugin_id'                     => array(
+		'label'        => __( 'Plugin ID', 'freemius' ),
+		'type'         => 'integer',
+		'default'      => '',
+		'help'         => __( 'Required product ID (whether it\'s a plugin, theme, add-on, bundle, or SaaS).', 'freemius' ),
+		'isDeprecated' => true,
 	),
 	'public_key'                    => array(
 		'label'            => __( 'Public Key', 'freemius' ),
@@ -187,10 +194,11 @@ return array(
 		),
 	),
 	'maximize_discounts'            => array(
-		'label'   => __( 'Maximize discounts', 'freemius' ),
-		'type'    => 'boolean',
-		'default' => true,
-		'help'    => __(
+		'label'        => __( 'Maximize discounts', 'freemius' ),
+		'type'         => 'boolean',
+		'default'      => true,
+		'isDeprecated' => true,
+		'help'         => __(
 			'This has been deprecated in favor of bundle_discount introduced in phase2 Checkout. Set this param to false when selling a bundle and you want the discounts to be based on the closest licenses quota and billing cycle from the child products. Unlike the default discounts calculation which is maximized by basing the discounts on the child products single-site prices.',
 			'freemius'
 		),
@@ -498,8 +506,22 @@ return array(
 		'type'    => 'boolean',
 		'default' => true,
 		'help'    => __(
-			'Determines whether the products in a bundle appear as hidden by default. Is applicable only to bundles.',
+			'If present, it will show the billing cycle selector UI in the Checkout. The accepted values are',
 			'freemius'
+		),
+	),
+	'billing_cycle_selector'        => array(
+		'label'   => __( 'Billing cycle selector', 'freemius' ),
+		'type'    => 'string',
+		'default' => 'auto',
+		'help'    => __(
+			'If present, it will show the billing cycle selector UI in the Checkout.',
+			'freemius'
+		),
+		'options' => array(
+			'responsive_list' => __( 'Responsive List', 'freemius' ),
+			'dropdown'        => __( 'Dropdown', 'freemius' ),
+			'list'            => __( 'List', 'freemius' ),
 		),
 	),
 );
