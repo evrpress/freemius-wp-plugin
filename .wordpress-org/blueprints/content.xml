@@ -188,7 +188,7 @@
 		</wp:postmeta>
 		<wp:postmeta>
 		<wp:meta_key><![CDATA[freemius_button]]></wp:meta_key>
-		<wp:meta_value><![CDATA[a:2:{s:10:"public_key";s:32:"pk_1efa30140fc34f21e5b89959bb877";s:9:"product_id";i:12184;}]]></wp:meta_value>
+		<wp:meta_value><![CDATA[a:2:{s:10:"public_key";s:32:"pk_1efa30140fc34f21e5b89959bb877";s:10:"product_id";i:12184;}]]></wp:meta_value>
 		</wp:postmeta>							</item>
 				</channel>
 </rss>
